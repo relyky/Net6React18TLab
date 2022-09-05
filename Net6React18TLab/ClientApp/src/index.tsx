@@ -1,16 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
+const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;
+
+const root = createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter basename={baseUrl}>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 
