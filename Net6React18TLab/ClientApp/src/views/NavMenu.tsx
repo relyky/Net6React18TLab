@@ -1,18 +1,19 @@
 import type { ReactChild, FC } from 'react'
 import React, { useState } from 'react'
 import { Box, Button, Menu, MenuItem, Link } from '@mui/material'
+import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom'
 import DownIcon from '@mui/icons-material/ArrowDropDown'
 
 export default function NavMenu() {
   return (
     <Box sx={{ display: 'flex', flexGrow: 1 }}>
-      <Button href="/" color="inherit" sx={{ ml: 1 }}>
+      <Button to="/" component={RouterLink} color="inherit" sx={{ ml: 1 }}>
         Home
       </Button>
       <MenuGroup label="Demo">
-        <MenuItem><Link href="/demo01" underline="none">Demo01</Link></MenuItem>
-        <MenuItem><Link href="/demo02" underline="none">Demo02</Link></MenuItem>
-        <MenuItem><Link href="/demo03" underline="none">Demo03</Link></MenuItem>
+        <MenuItem><Link to="/demo01" component={RouterLink} underline="none">Demo01</Link></MenuItem>
+        <MenuItem><Link to="/demo02" component={RouterLink} underline="none">Demo02</Link></MenuItem>
+        <MenuItem><Link to="/demo03" component={RouterLink} underline="none">Demo03</Link></MenuItem>
       </MenuGroup>
     </Box>
   )
