@@ -1,0 +1,19 @@
+import React from 'react'
+import { AppBar, Toolbar, Typography } from '@mui/material'
+import NavMenu from './NavMenu'
+// CSS icons
+import AdbIcon from '@mui/icons-material/Adb'
+
+export default function Banner() {
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <AdbIcon />
+        <Typography variant="h6">
+          My First React.v18 App
+        </Typography>
+        <NavMenu />        
+      </Toolbar>
+    </AppBar>
+  )
+}

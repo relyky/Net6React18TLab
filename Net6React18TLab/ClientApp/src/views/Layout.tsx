@@ -1,16 +1,18 @@
-import React, { FC } from 'react'
-import NavMenu from './NavMenu'
+import type { FC } from 'react'
+import React from 'react'
+import { Box } from '@mui/material'
+import Banner from './Banner'
 
 const Layout: FC<{
   children: React.ReactNode
 }> = (props) => {
   return (
-    <div>
-      <NavMenu />
-      <div className="container">
+    <Box>
+      <Banner />
+      <main>
         {props.children}
-      </div>
-    </div>
+      </main>
+    </Box>
   )
 }
 
