@@ -2,7 +2,7 @@
 import Home from './views/Home/Home'
 import Demo01 from './views/Demo01/AppForm'
 import Demo02 from './views/Demo02/AppForm'
-//import { Counter } from './views/ReduxCounter/Counter'
+import Demo03 from './views/Demo03/AppForm'
 
 const AppRoutes = [
   {
@@ -16,6 +16,10 @@ const AppRoutes = [
   {
     path: '/demo02',
     element: <Demo02 />
+  },
+  {
+    path: '/demo03',
+    element: <Demo03 />
   },
 ];
 

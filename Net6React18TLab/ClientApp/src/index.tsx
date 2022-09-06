@@ -6,6 +6,12 @@ import store from './store/store'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
+// CSS: Fonts to support Material Design, ref:https://mui.com/material-ui/react-typography/
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+// Site CSS
 import './index.css'
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string
