@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import FourKIcon from '@mui/icons-material/FourK'
 
+//## resource: style object
 const textIconCss = { fontSize: 'inherit', verticalAlign: 'text-top' };
 
 export default function TypoDemo() {

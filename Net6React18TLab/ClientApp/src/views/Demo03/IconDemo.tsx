@@ -15,11 +15,12 @@ import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp'
 import ThreeDRotationIcon from '@mui/icons-material/ThreeDRotation'
 import FourKIcon from '@mui/icons-material/FourK'
 import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty'
+import MenuIcon from '@mui/icons-material/Menu'
 
 export default function IconDemo() {
   return (
     <Box>
-      <Typography variant="h4"><FourKIcon />Material SVG icons<FourKIcon /></Typography>
+      <Typography variant="h4"><MenuIcon />Material SVG icons</Typography>
 
       <Grid container sx={{ color: 'text.primary' }}>
         <Grid item xs={4}>
