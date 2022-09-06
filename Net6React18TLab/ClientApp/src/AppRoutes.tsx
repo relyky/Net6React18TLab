@@ -1,4 +1,4 @@
-﻿import React from 'react'
+import React from 'react'
 import Home from './views/Home/Home'
 import Demo01 from './views/Demo01/AppForm'
 import Demo02 from './views/Demo02/AppForm'

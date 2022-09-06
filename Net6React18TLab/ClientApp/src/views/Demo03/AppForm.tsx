@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Container, Typography, Button, Divider } from '@mui/material';
 import IconDemo from './IconDemo';
 import TypoDemo from './TypoDemo'
 
 export default function Demo03_AppForm() {
-  const [count, setCount] = useState(17)
-
   return (
-    <div style={{ padding: '0 16px' }}>
-      <h1>Demo03 : Material UI 展示</h1>
+    <Container>
+      <Typography variant="h3">Demo03 : Material UI 展示</Typography>
+        
+      <Button variant="contained">Hello World</Button>
+      <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+
       <TypoDemo />
+
       <IconDemo />
-    </div>
+
+    </Container>
   );
 }
