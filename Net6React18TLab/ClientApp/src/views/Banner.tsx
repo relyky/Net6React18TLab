@@ -2,12 +2,11 @@ import React from 'react'
 import { AppBar, Toolbar, Typography, Button } from '@mui/material'
 import NavMenu from './NavMenu'
 // hooks
-import { useCustomTheme } from 'hooks/useCustomTheme'
+import { ToggleBrightnessButton } from 'hooks/useCustomTheme'
 // CSS icons
 import AdbIcon from '@mui/icons-material/Adb'
 
 export default function Banner() {
-  const theme = useCustomTheme()
   return (
     <AppBar position="static">
       <Toolbar>
@@ -16,7 +15,7 @@ export default function Banner() {
           My First React.v18 App
         </Typography>
         <NavMenu />
-        <Button onClick={theme.toggleColorMode} color='inherit'>Toggle Color ({theme.colorMode})</Button>
+        <ToggleBrightnessButton />
       </Toolbar>
     </AppBar>
   )

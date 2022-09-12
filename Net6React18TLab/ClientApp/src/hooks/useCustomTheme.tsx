@@ -1,15 +1,21 @@
 ﻿/*
- * 一些客製化的資源
+ * To customize the theme: Dark mode with a custom palette
+ * 參考：[Dark mode with a custom palette](https://mui.com/material-ui/customization/dark-mode/#dark-mode-with-a-custom-palette)
+ * 參考：[Toggling color mode](https://mui.com/material-ui/customization/dark-mode/#toggling-color-mode)
  */
 import type { ReactChild } from 'react'
 import React, { useContext, useReducer } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { zhTW } from '@mui/material/locale'
+import { IconButton } from '@mui/material'
+// CSS
+import DarkIcon from '@mui/icons-material/Brightness4'
+import WhiteIcon from '@mui/icons-material/Brightness7'
 
 //-----------------------------------------------------------------------------
 //## Resource
 
-const theme = createTheme(
+const whiteTheme = createTheme(
   {
     palette: {
       primary: { main: '#BF4690' },
@@ -45,8 +51,20 @@ export const CustomThemeProvider = (props: { children: ReactChild }) => {
 
   return (
     <CustomThemeContext.Provider value={{ colorMode, toggleColorMode }}>
-      <ThemeProvider theme={colorMode === 'dark' ? darkTheme : theme}>
+      <ThemeProvider theme={colorMode === 'dark' ? darkTheme : whiteTheme}>
         {props.children}
       </ThemeProvider>
     </CustomThemeContext.Provider>)
+}
+
+//=============================================================================
+//## helper component
+
+export const ToggleBrightnessButton = () => {
+  const themeMode = useCustomTheme()
+  return (
+    <IconButton onClick={themeMode.toggleColorMode} color="inherit" >
+      {themeMode.colorMode === 'dark' ? <DarkIcon /> : <WhiteIcon />}
+    </IconButton>
+  )
 }
