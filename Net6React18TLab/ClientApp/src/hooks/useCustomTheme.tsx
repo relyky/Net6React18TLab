@@ -36,7 +36,7 @@ const darkTheme = createTheme(
 //-----------------------------------------------------------------------------
 //## useContext
 
-// first, create empty context
+//# first, create empty context, 建構時給與初始值以避免當掉。
 const CustomThemeContext = React.createContext({
   colorMode: 'white',
   toggleColorMode: () => { }
@@ -47,6 +47,7 @@ export function useCustomTheme() {
 }
 
 export const CustomThemeProvider = (props: { children: ReactChild }) => {
+  //# 真正共享的實體在此建立
   const [colorMode, toggleColorMode] = useReducer((mode) => mode === 'white' ? 'dark' : 'white', 'white')
 
   return (
