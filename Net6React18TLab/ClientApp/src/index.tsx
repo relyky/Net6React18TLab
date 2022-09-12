@@ -6,11 +6,10 @@ import store from './store/store'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
+import { CustomThemeProvider } from 'hooks/useCustomTheme'
 // @MUI Layout
 import { CacheProvider } from '@emotion/react'
 import createCache from '@emotion/cache'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { zhTW } from '@mui/material/locale'
 // CSS: Fonts to support Material Design, ref:https://mui.com/material-ui/react-typography/
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -30,24 +29,15 @@ export const muiCache = createCache({
   prepend: true,
 });
 
-const theme = createTheme(
-  {
-    palette: {
-      primary: { main: '#BF4690' },
-    },
-  },
-  zhTW, // Locale text:Use the theme to configure the locale text globally.
-);
-
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <CacheProvider value={muiCache}>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter basename={baseUrl}>
+        <BrowserRouter basename={baseUrl}>
+          <CustomThemeProvider>
             <App />
-          </BrowserRouter>
-        </ThemeProvider>
+          </CustomThemeProvider>
+        </BrowserRouter>
       </CacheProvider>
     </Provider>
   </React.StrictMode>
