@@ -61,6 +61,7 @@ export const CustomThemeProvider = (props: { children: ReactChild }) => {
 //=============================================================================
 //## helper component
 
+//# 用來切換 while/dark theme
 export const ToggleBrightnessButton = () => {
   const themeMode = useCustomTheme()
   return (
