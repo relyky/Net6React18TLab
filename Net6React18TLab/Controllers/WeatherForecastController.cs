@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Net6React18TLab.Models;
 
 namespace Net6React18TLab.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("api/[controller]/[action]")]
   public class WeatherForecastController : ControllerBase
   {
     private static readonly string[] Summaries = new[]
@@ -18,16 +19,24 @@ namespace Net6React18TLab.Controllers
       _logger = logger;
     }
 
-    [HttpGet]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpPost]
+    public IEnumerable<WeatherForecast> QryDataList(QryDataListArgs args)
     {
-      return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+      // 模擬長時間計算
+      SpinWait.SpinUntil(() => false, 2000); // 等二秒
+
+      return Enumerable.Range(1, args.rowCount).Select(index => new WeatherForecast
       {
         Date = DateTime.Now.AddDays(index),
         TemperatureC = Random.Shared.Next(-20, 55),
         Summary = Summaries[Random.Shared.Next(Summaries.Length)]
       })
       .ToArray();
+    }
+
+    public record QryDataListArgs
+    {
+      public int rowCount { get; set; }
     }
   }
 }
