@@ -1,4 +1,4 @@
-﻿/*
+/*
  * To customize the theme: Dark mode with a custom palette
  * 參考：[Dark mode with a custom palette](https://mui.com/material-ui/customization/dark-mode/#dark-mode-with-a-custom-palette)
  * 參考：[Toggling color mode](https://mui.com/material-ui/customization/dark-mode/#toggling-color-mode)
