@@ -7,7 +7,7 @@ import type { ReactChild } from 'react'
 import React, { useContext, useReducer } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { zhTW } from '@mui/material/locale'
-import { IconButton } from '@mui/material'
+import { CssBaseline, IconButton } from '@mui/material'
 // CSS
 import DarkIcon from '@mui/icons-material/Brightness4'
 import WhiteIcon from '@mui/icons-material/Brightness7'
@@ -53,6 +53,7 @@ export const CustomThemeProvider = (props: { children: ReactChild }) => {
   return (
     <CustomThemeContext.Provider value={{ colorMode, toggleColorMode }}>
       <ThemeProvider theme={colorMode === 'dark' ? darkTheme : whiteTheme}>
+        <CssBaseline />
         {props.children}
       </ThemeProvider>
     </CustomThemeContext.Provider>)
