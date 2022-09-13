@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 ///## post data with JSON only.
 ///# ref→[Using Fetch](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
@@ -19,7 +19,7 @@ export function postData(url: string, data?: object) {
 }
 
 //============================================================================
-type DataType = Array<object> | object | null
+type DataType = object[] | object | null
 
 interface PostDataOptions {
   initData?: DataType,
@@ -39,7 +39,7 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
 
-  const refetch = () => {
+  const refetch = useCallback(() => {
     setLoading(true)
     postData(url, args)
       .then(data => {
@@ -53,12 +53,12 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
         setError(error)
       })
       .finally(() => setLoading(false))
-  }
+  }, [attrs.initData, url, args])
 
   //# DidMount
   useEffect(() => {
     if (attrs.immediately) refetch();
-  }, [url, args, attrs]);
+  }, [attrs.immediately, refetch]);
 
   return [data, loading, error, refetch];
 }

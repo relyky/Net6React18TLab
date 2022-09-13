@@ -34,6 +34,12 @@ namespace Net6React18TLab.Controllers
       .ToArray();
     }
 
+    [HttpPost]
+    public IEnumerable<string> GetBasicData()
+    {
+      return Summaries;
+    }
+
     public record QryDataListArgs
     {
       public int rowCount { get; set; }
