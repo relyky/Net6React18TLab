@@ -78,19 +78,21 @@ export const ASwitch: FC<{
   label?: string
   onChange: (v: { name?: string, value: boolean }) => void
 }> = props => {
-  return (props.label ?
+  return (props.label !== undefined ?
     <FormControlLabel label={props.label} control={
       <Switch
+        defaultChecked={props.value}
         name={props.name}
         value={props.value}
-        onChange={(e, checked) => props.onChange({ name: props.name, value: checked })}
+        onChange={(_, checked) => props.onChange({ name: props.name, value: checked })}
       />
     } />
     :
     <Switch
+      defaultChecked={props.value}
       name={props.name}
       value={props.value}
-      onChange={(e, checked) => props.onChange({ name: props.name, value: checked })}
+      onChange={(_, checked) => props.onChange({ name: props.name, value: checked })}
     />
   )
 }

@@ -29,7 +29,7 @@ namespace Net6React18TLab.Controllers
       {
         Date = DateTime.Now.AddDays(index),
         TemperatureC = Random.Shared.Next(-20, 55),
-        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+        Summary = args.summary == "all" ? Summaries[Random.Shared.Next(Summaries.Length)] : args.summary
       })
       .ToArray();
     }
@@ -43,6 +43,7 @@ namespace Net6React18TLab.Controllers
     public record QryDataListArgs
     {
       public int rowCount { get; set; }
+      public string summary { get; set; }
     }
   }
 }
