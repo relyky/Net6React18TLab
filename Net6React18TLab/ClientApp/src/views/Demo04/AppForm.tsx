@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { Container, TextField } from '@mui/material'
+import { H3, AButton, ASwitch } from 'widgets/hideorder'
+// hooks
 import { usePostData, useLoad } from 'hooks/useHttp'
 
 export default function Demo01_AppForm() {
   const [codeList] = useLoad('api/WeatherForecast/GetBasicData')
+  const [immediately, setImmediately] = useState<boolean>(true)
   const [args, setArgs] = useState({ rowCount: 5 })
-  const [dataList, loading, error, refetch] = usePostData('api/WeatherForecast/QryDataList', args, { immediately: true })
+  const [dataList, loading, error, refetch] = usePostData('api/WeatherForecast/QryDataList', args, { immediately })
 
   return (
-    <div style={{ padding: '0 16px' }}>'
-      <h1>Demo04 : 通訊測試</h1>
+    <Container>
+      <H3>Demo04 : 通訊測試</H3>
+
+      <ASwitch value={immediately} label='立即刷新' onChange={v => setImmediately(v.value)} />
 
       <label htmlFor="summaryId">Summary:</label>
       <select name="summary" id="summaryId">
@@ -18,9 +24,18 @@ export default function Demo01_AppForm() {
         ))}
       </select>
 
-      <input type='number' value={args.rowCount} onChange={e => setArgs({ rowCount: parseInt(e.target.value) })} />
-      <button onClick={refetch}>Refetch</button>
-      <p>{`loading:${loading}`}</p>
+      <TextField
+        label="筆數"
+        type="number"
+        value={args.rowCount}
+        onChange={e => setArgs({ rowCount: parseInt(e.target.value) })}
+        size="small"
+      />
+
+      <AButton mutant='primary' label='Refetch' onClick={refetch} />
+
+      <p>{`immediately:${immediately}, loading:${loading}`}</p>
+
       {(error !== null) && <pre>{`${error}`}</pre>}
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
@@ -42,7 +57,7 @@ export default function Demo01_AppForm() {
           )}
         </tbody>
       </table>
-    </div>
+    </Container>
   );
 }
 

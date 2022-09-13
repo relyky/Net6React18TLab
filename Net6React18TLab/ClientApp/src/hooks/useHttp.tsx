@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 ///## post data with JSON only.
 ///# ref→[Using Fetch](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
@@ -34,7 +34,7 @@ const defaultOption: PostDataOptions = {
 /// 載入資料
 export function usePostData(url: string, args?: object, option?: PostDataOptions)
   : [data: DataType, loading: boolean, error: Error | null, refetch: () => void] {
-  const [attrs] = useState<PostDataOptions>(() => ({ ...defaultOption, ...option }))
+  const attrs = useMemo<PostDataOptions>(() => ({ ...defaultOption, ...option }), [option])
   const [data, setData] = useState<DataType>(attrs.initData as DataType)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
