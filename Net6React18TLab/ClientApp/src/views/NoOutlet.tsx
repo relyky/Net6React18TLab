@@ -1,12 +1,11 @@
 import type { FC } from 'react'
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-const NoLayout: FC<{
-  children: React.ReactNode
-}> = (props) => {
+const NoLayout: FC = () => {
   return (
     <main>
-      {props.children}
+      <Outlet />
     </main>
   )
 }

@@ -1,19 +1,23 @@
 import React, { FC } from 'react'
 import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes'
-import Layout from './views/Layout'
-import NoLayout from './views/NoLayout'
+import MainOutlet from './views/MainOutlet'
+import NoOutlet from './views/NoOutlet'
 import LoginView from './views/Account/Login'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/login" element={<NoLayout><LoginView /></NoLayout>} />
+      <Route path="/login" element={<NoOutlet />}>
+        <Route index element={<LoginView />} />      
+      </Route>
 
-      {AppRoutes.map((route, index) => {
-        const { element, ...rest } = route;
-        return <Route key={index} {...rest} element={<Layout>{element}</Layout>} />;
-      })}
+      <Route path="/" element={<MainOutlet />}>
+        {AppRoutes.map((route, index) => {
+          const { element, ...rest } = route;
+          return <Route key={index} {...rest} element={element} />;
+        })}
+      </Route>
 
       <Route path="*" element={<NotFound />} />
     </Routes>

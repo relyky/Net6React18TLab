@@ -2,15 +2,14 @@ import type { FC } from 'react'
 import React from 'react'
 import { Box } from '@mui/material'
 import Banner from './Banner'
+import { Outlet } from 'react-router-dom'
 
-const Layout: FC<{
-  children: React.ReactNode
-}> = (props) => {
+const Layout: FC = () => {
   return (
     <Box>
       <Banner />
       <main>
-        {props.children}
+        <Outlet />
       </main>
     </Box>
   )
