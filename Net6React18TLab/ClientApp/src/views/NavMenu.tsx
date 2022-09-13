@@ -1,7 +1,7 @@
 import type { ReactChild, FC } from 'react'
 import React, { useState } from 'react'
 import { Box, Button, Menu, MenuItem, Link } from '@mui/material'
-import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import DownIcon from '@mui/icons-material/ArrowDropDown'
 
 export default function NavMenu() {
@@ -14,6 +14,7 @@ export default function NavMenu() {
         <MenuItem><Link to="/demo01" component={RouterLink} underline="none">Demo01</Link></MenuItem>
         <MenuItem><Link to="/demo02" component={RouterLink} underline="none">Demo02</Link></MenuItem>
         <MenuItem><Link to="/demo03" component={RouterLink} underline="none">Demo03</Link></MenuItem>
+        <MenuItem><Link to="/demo04" component={RouterLink} underline="none">Demo04</Link></MenuItem>
       </MenuGroup>
     </Box>
   )

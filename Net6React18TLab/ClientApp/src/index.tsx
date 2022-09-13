@@ -29,18 +29,17 @@ export const muiCache = createCache({
   prepend: true,
 });
 
+//※注意：<React.StrictMode>會讓 useState,useEffect 初始化執行兩次，故不可使用。
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <CacheProvider value={muiCache}>
-        <BrowserRouter basename={baseUrl}>
-          <CustomThemeProvider>
-            <App />
-          </CustomThemeProvider>
-        </BrowserRouter>
-      </CacheProvider>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <CacheProvider value={muiCache}>
+      <BrowserRouter basename={baseUrl}>
+        <CustomThemeProvider>
+          <App />
+        </CustomThemeProvider>
+      </BrowserRouter>
+    </CacheProvider>
+  </Provider>
 );
 
 // If you want your app to work offline and load faster, you can change
