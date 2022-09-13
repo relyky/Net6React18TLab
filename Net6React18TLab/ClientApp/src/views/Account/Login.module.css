@@ -1,0 +1,30 @@
+.bgcover {
+  background-image: url(bgImage.jpg);
+  background-size: cover;
+  animation: bgcover 24s infinite;
+  animation-timing-function: ease-in;
+  -webkit-backface-visibility: visible; /* visible hidden Safari */
+  backface-visibility: visible;
+}
+
+@keyframes bgcover {
+  33% {
+    background-image: url(bgcover-1.jpg);
+  }
+
+  66% {
+    background-image: url(bgcover-2.jpg);
+  }
+
+  100% {
+    background-image: url(bgImage.jpg);
+  }
+}
+
+.bgcover2 {
+  background-image: url(bgImage.jpg);
+  background-repeat: no-repeat;
+  background-color: #fafafa;
+  background-size: cover;
+  background-position: center;
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Paper, Box, Grid, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import bgImage from './bgImage.jpg'
+import ss from './Login.module.css'
 
 const Copyright = () => (
   <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
@@ -26,20 +26,12 @@ export default function SignInSide() {
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
-      <Grid item
+      <Grid item className={ss.bgcover}
         xs={false}
         sm={4}
         md={7}
         lg={9}
         xl={10}
-        sx={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: (t) =>
-            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
       />
       <Grid item xs={12} sm={8} md={5} lg={3} xl={2} component={Paper} elevation={6} square>
         <Box
