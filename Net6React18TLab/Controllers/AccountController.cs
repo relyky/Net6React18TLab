@@ -103,9 +103,7 @@ public class AccountController : ControllerBase
   {
     return Ok(new
     {
-      message = $"{args.knock}@{DateTime.Now:HH:mm:ss}",
-      hasHttpContext = this.HttpContext != null,
-      userName = this.User.Identity?.Name ?? "unknown"
+      echo = $"{args.knock}@{DateTime.Now:HH:mm:ss}",
     });
   }
 

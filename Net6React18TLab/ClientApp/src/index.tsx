@@ -11,10 +11,11 @@ import { CustomThemeProvider } from 'hooks/useCustomTheme'
 import { CacheProvider } from '@emotion/react'
 import createCache from '@emotion/cache'
 // CSS: Fonts to support Material Design, ref:https://mui.com/material-ui/react-typography/
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import '@sweetalert2/theme-material-ui'
 // Site CSS
 import './index.css'
 
