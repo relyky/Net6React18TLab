@@ -1,10 +1,12 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from 'views/Demo02/counterSlice';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import counter from 'views/Demo02/counterSlice'
+import metaData from './metaDataSlice'
 
 export function makeStore() {
   return configureStore({
     reducer: {
-      counter: counterReducer,
+      metaData,
+      counter,
     },
   })
 }

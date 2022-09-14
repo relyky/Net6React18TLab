@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useAppDispatch } from 'store/hooks'
+import { setBlocking } from 'store/metaDataSlice';
 
 ///## post data with JSON only.
 ///# ref→[Using Fetch](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
@@ -38,9 +40,11 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
   const [data, setData] = useState<DataType>(attrs.initData as DataType)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
+  const dispatch = useAppDispatch();
 
   const refetch = useCallback(() => {
     setLoading(true)
+    dispatch(setBlocking(true))
     postData(url, args)
       .then(data => {
         console.info('usePostData OK', { data })
@@ -52,7 +56,10 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
         setData(attrs.initData as DataType)
         setError(error)
       })
-      .finally(() => setLoading(false))
+      .finally(() => {
+        setLoading(false)
+        dispatch(setBlocking(false))
+      })
   }, [attrs.initData, url, args])
 
   //# DidMount
