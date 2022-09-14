@@ -19,6 +19,7 @@ const accountSlice = createSlice({
       const loginUser = action.payload
       account.loginUserId = loginUser.loginUserId
       account.loginUserName = loginUser.loginUserName
+      account.authToken = loginUser.authToken
     },
     resetAccount: () => {
       return initialState

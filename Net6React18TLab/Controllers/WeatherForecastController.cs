@@ -43,7 +43,7 @@ namespace Net6React18TLab.Controllers
     public record QryDataListArgs
     {
       public int rowCount { get; set; }
-      public string summary { get; set; }
+      public string summary { get; set; } = String.Empty;
     }
   }
 }

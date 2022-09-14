@@ -5,6 +5,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { useAppDispatch } from 'store/hooks'
 import { assignAccount, resetAccount } from 'store/accountSlice'
 import { useNavigate } from "react-router-dom"
+import { postData } from 'hooks/useHttp'
 
 const Copyright = () => (
   <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
@@ -32,9 +33,22 @@ export default function LoginForm() {
 
     console.log('loginInfo', loginInfo);
 
-    // 模擬成功後，轉址到主畫面
-    dispatch(assignAccount({ loginUserId: 'smart', loginUserName: '郝聰明' }))
-    navigate('/') // 轉址到主畫面
+    postData('api/Account/Signin', loginInfo).then(data => {
+      console.log('Signin OK', data);
+      // 登入成功取得 AuthToken
+      dispatch(assignAccount({
+        loginUserId: data.userId,
+        loginUserName: data.userName,
+        authToken: data.token
+      }));
+      navigate('/') // 轉址到主畫面
+    }).catch(err => {
+      console.log('Signin FAIL', err);
+    })
+
+    //// 模擬成功後，轉址到主畫面
+    //dispatch(assignAccount({ loginUserId: 'smart', loginUserName: '郝聰明' }))
+    //navigate('/') // 轉址到主畫面
   };
 
   return (
