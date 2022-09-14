@@ -5,9 +5,11 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Net6React18TLab.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class AccountController : ControllerBase

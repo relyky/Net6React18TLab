@@ -4,6 +4,7 @@ using Net6React18TLab.Models;
 
 namespace Net6React18TLab.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("api/[controller]/[action]")]
   public class WeatherForecastController : ControllerBase
@@ -20,8 +21,7 @@ namespace Net6React18TLab.Controllers
       _logger = logger;
     }
 
-    [HttpPost]
-    [Authorize]
+    [HttpPost]    
     public IEnumerable<WeatherForecast> QryDataList(QryDataListArgs args)
     {
       // 模擬長時間計算
