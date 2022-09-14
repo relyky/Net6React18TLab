@@ -1,6 +1,10 @@
 import React from 'react'
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Box, Grid, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+// hooks
+import { useAppDispatch } from 'store/hooks'
+import { assignAccount, resetAccount } from 'store/accountSlice'
+import { useNavigate } from "react-router-dom"
 
 const Copyright = () => (
   <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
@@ -14,13 +18,23 @@ const Copyright = () => (
 )
 
 export default function LoginForm() {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const loginInfo = {
+      userId: data.get('userId'),
+      mima: data.get('mima'),
+      remember: data.get('remember') ?? 'N'
+    };
+
+    console.log('loginInfo', loginInfo);
+
+    // 模擬成功後，轉址到主畫面
+    dispatch(assignAccount({ loginUserId: 'smart', loginUserName: '郝聰明' }))
+    navigate('/') // 轉址到主畫面
   };
 
   return (
@@ -44,24 +58,22 @@ export default function LoginForm() {
           margin="normal"
           required
           fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
+          label="帳號"
+          name="userId"
+          autoComplete="userid"
           autoFocus
         />
         <TextField
           margin="normal"
           required
           fullWidth
-          name="password"
-          label="Password"
+          name="mima"
+          label="密碼"
           type="password"
-          id="password"
           autoComplete="current-password"
         />
         <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
+          control={<Checkbox value="Y" name="remember" color="primary" />}
           label="Remember me"
         />
         <Button
@@ -70,7 +82,7 @@ export default function LoginForm() {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign In
+          登入
         </Button>
         <Grid container>
           <Grid item xs>
