@@ -1,19 +1,24 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { useAppDispatch } from 'store/hooks'
-import { setBlocking } from 'store/metaDataSlice';
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { setBlocking } from 'store/metaDataSlice'
 
 ///## post data with JSON only.
 ///# ref→[Using Fetch](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
-export function postData(url: string, data?: object) {
+export function postData(url: string, data?: object, authToken?: string) {
+  const headers = {
+    'Content-Type': 'application/json'
+  }
+
+  if (authToken)
+    headers['Authorization'] = `Bearer ${authToken}`
+
   return fetch(url, {
+    headers,
     body: JSON.stringify(data),
     cache: 'no-cache',
     credentials: 'same-origin',
     method: 'POST',
     referrer: 'no-referrer',
-    headers: {
-      'Content-Type': 'application/json'
-    }
   }).then(resp => {
     if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
     return resp.json()
@@ -41,11 +46,12 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
   const dispatch = useAppDispatch();
+  const authToken = useAppSelector(s => s.account.authToken)
 
   const refetch = useCallback(() => {
     setLoading(true)
     dispatch(setBlocking(true))
-    postData(url, args)
+    postData(url, args, authToken)
       .then(data => {
         console.info('usePostData OK', { data })
         setData(data)

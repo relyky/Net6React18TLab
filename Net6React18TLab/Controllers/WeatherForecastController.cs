@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Net6React18TLab.Models;
 
 namespace Net6React18TLab.Controllers
@@ -20,6 +21,7 @@ namespace Net6React18TLab.Controllers
     }
 
     [HttpPost]
+    [Authorize]
     public IEnumerable<WeatherForecast> QryDataList(QryDataListArgs args)
     {
       // 模擬長時間計算
