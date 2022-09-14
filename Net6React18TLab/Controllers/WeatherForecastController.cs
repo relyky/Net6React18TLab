@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Net6React18TLab.Models;
+using System.Security.Claims;
 
 namespace Net6React18TLab.Controllers
 {
@@ -9,12 +10,12 @@ namespace Net6React18TLab.Controllers
   [Route("api/[controller]/[action]")]
   public class WeatherForecastController : ControllerBase
   {
-    private static readonly string[] Summaries = new[]
+    static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    readonly ILogger<WeatherForecastController> _logger;
 
     public WeatherForecastController(ILogger<WeatherForecastController> logger)
     {

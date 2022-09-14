@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var _config = builder.Configuration;
 
 //## Add services to the container.
-
-/// 從自訂元件中使用 HttpContext, ref→[https://docs.microsoft.com/zh-tw/aspnet/core/fundamentals/http-context?view=aspnetcore-6.0]
-/// 將可注入：IHttpContextAccessor，以取得HttpContext。
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews();
 
@@ -28,7 +26,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         // 一般我們都會驗證 Issuer
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration.GetValue<string>("JwtSettings:Issuer"),
+        ValidIssuer = _config["JwtSettings:Issuer"],
 
         // 通常不太需要驗證 Audience
         ValidateAudience = false,
@@ -41,7 +39,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidateIssuerSigningKey = false,
 
         // "1234567890123456" 應該從 IConfiguration 取得
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JwtSettings:SignKey")))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["JwtSettings:SignKey"]))
       };
     });
 

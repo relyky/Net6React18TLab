@@ -15,13 +15,11 @@ namespace Net6React18TLab.Controllers;
 public class AccountController : ControllerBase
 {
   readonly ILogger<AccountController> _logger;
-  readonly IHttpContextAccessor _http;
   readonly IConfiguration _config;
 
-  public AccountController(ILogger<AccountController> logger, IHttpContextAccessor http, IConfiguration config)
+  public AccountController(ILogger<AccountController> logger, IConfiguration config)
   {
     _logger = logger;
-    _http = http;
     _config = config;
   }
 
@@ -51,7 +49,7 @@ public class AccountController : ControllerBase
     //claims.Add(new Claim(ClaimTypes.Name, userName));
 
     // TODO: You can define your "roles" to your Claims.
-    claims.Add(new Claim("roles", "Admin"));
+    //claims.Add(new Claim("roles", "Admin"));
     claims.Add(new Claim("roles", "Users"));
 
     var userClaimsIdentity = new ClaimsIdentity(claims);
@@ -106,8 +104,8 @@ public class AccountController : ControllerBase
     return Ok(new
     {
       message = $"{args.knock}@{DateTime.Now:HH:mm:ss}",
-      hasHttpContext = _http.HttpContext != null,
-      userName = _http.HttpContext?.User.Identity?.Name ?? "unknown"
+      hasHttpContext = this.HttpContext != null,
+      userName = this.User.Identity?.Name ?? "unknown"
     });
   }
 
