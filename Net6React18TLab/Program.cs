@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Net6React18TLab.Models;
-using System.Security.Claims;
+using Net6React18TLab.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,8 +49,11 @@ builder.Services.AddAuthorization(options => {
   options.AddPolicy("AuthFunc", policy => policy.Requirements.Add(new AuthFuncRequirement()));
 });
 
-// 註冊Requirement
+// 註冊 Requirement
 builder.Services.AddSingleton<IAuthorizationHandler, AuthFuncHandler>();
+
+// 註冊 客製化服務
+builder.Services.AddSingleton<AccountService>();
 
 //=============================================================================
 var app = builder.Build();

@@ -3,9 +3,17 @@ import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Box, Grid,
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // hooks
 import { useAppDispatch } from 'store/hooks'
-import { assignAccount, resetAccount } from 'store/accountSlice'
+import { assignAccount } from 'store/accountSlice'
 import { useNavigate } from "react-router-dom"
 import { postData } from 'hooks/useHttp'
+
+
+interface LoginArgs {
+  userId: string,
+  credential: string,
+  vcode: string,
+  returnUrl?: string
+}
 
 const Copyright = () => (
   <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
@@ -25,15 +33,13 @@ export default function LoginForm() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget);
-    const loginInfo = {
-      userId: data.get('userId'),
-      mima: data.get('mima'),
-      remember: data.get('remember') ?? 'N'
+    const loginInfo: LoginArgs = {
+      userId: data.get('userId') as string,
+      credential: data.get('mima') as string,
+      vcode: '123456'
     };
 
-    console.log('loginInfo', loginInfo);
-
-    postData('api/Account/Signin', loginInfo).then(data => {
+    postData('api/Account/SignIn', loginInfo).then(data => {
       console.log('Signin OK', data);
       // 登入成功取得 AuthToken
       dispatch(assignAccount({
