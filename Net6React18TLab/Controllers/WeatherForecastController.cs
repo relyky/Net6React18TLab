@@ -5,9 +5,10 @@ using System.Security.Claims;
 
 namespace Net6React18TLab.Controllers
 {
-  [Authorize]
   [ApiController]
   [Route("api/[controller]/[action]")]
+  [Authorize("AuthFunc")]
+  [AuthFunc("FUNC010")]
   public class WeatherForecastController : ControllerBase
   {
     static readonly string[] Summaries = new[]

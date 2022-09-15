@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Net6React18TLab.Models;
 using System.Security.Claims;
 using System.Text;
 
@@ -43,7 +45,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options => {
+  options.AddPolicy("AuthFunc", policy => policy.Requirements.Add(new AuthFuncRequirement()));
+});
+
+// µù¥URequirement
+builder.Services.AddSingleton<IAuthorizationHandler, AuthFuncHandler>();
 
 //=============================================================================
 var app = builder.Build();
