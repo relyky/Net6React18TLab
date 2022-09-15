@@ -45,7 +45,8 @@ export default function LoginForm() {
       dispatch(assignAccount({
         loginUserId: data.userId,
         loginUserName: data.userName,
-        authToken: data.token
+        authToken: data.token,
+        expiredTime: data.expiredTime
       }));
       navigate('/') // 轉址到主畫面
     }).catch(err => {

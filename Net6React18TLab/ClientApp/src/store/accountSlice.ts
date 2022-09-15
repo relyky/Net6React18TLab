@@ -4,6 +4,7 @@ export interface AccountState {
   loginUserId: string,
   loginUserName: string,
   authToken?: string
+  expiredTime?: string,
 }
 
 const initialState: AccountState = {
@@ -20,6 +21,7 @@ const accountSlice = createSlice({
       account.loginUserId = loginUser.loginUserId
       account.loginUserName = loginUser.loginUserName
       account.authToken = loginUser.authToken
+      account.expiredTime = loginUser.expiredTime
     },
     resetAccount: () => {
       return initialState

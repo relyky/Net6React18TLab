@@ -10,6 +10,10 @@ var _config = builder.Configuration;
 
 //## Add services to the container.
 
+/// 從自訂元件中使用 HttpContext, ref→[https://docs.microsoft.com/zh-tw/aspnet/core/fundamentals/http-context?view=aspnetcore-6.0]
+/// 將可注入：IHttpContextAccessor，以取得HttpContext。
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllersWithViews();
 
 /// 使用 Token-based 身份認證與授權 (JWT),ref→[https://blog.miniasp.com/post/2022/02/13/How-to-use-JWT-token-based-auth-in-aspnet-core-60]

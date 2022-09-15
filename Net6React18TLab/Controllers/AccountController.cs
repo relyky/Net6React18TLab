@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Net6React18TLab.Services;
+using System.Net;
+using System.Reflection;
 
 namespace Net6React18TLab.Controllers;
 
@@ -16,19 +18,18 @@ namespace Net6React18TLab.Controllers;
 public class AccountController : ControllerBase
 {
   readonly ILogger<AccountController> _logger;
-  readonly AccountService _accountSvc;
+  readonly AccountService _account;
+  readonly IConfiguration _config;
 
-  public AccountController(ILogger<AccountController> logger, AccountService accountSvc)
+  public AccountController(ILogger<AccountController> logger, AccountService account, IConfiguration config)
   {
     _logger = logger;
-    _accountSvc = accountSvc;
+    _account = account;
+    _config = config;
   }
 
-  
-
-
-
   [HttpPost]
+  [HttpGet]
   public IActionResult Echo(EchoArgs args)
   {
     return Ok(new
@@ -45,17 +46,43 @@ public class AccountController : ControllerBase
   [HttpPost]
   public IActionResult SignIn(LoginArgs login)
   {
-    if (_accountSvc.ValidateUser(login, out UserInfo? user))
+    //# 取登入者來源IP
+    string clientIp = "無法取得來源IP";
+    try
     {
-      var token = _accountSvc.GenerateJwtToken(user.userId);
-      return Ok(new {
-        userId = user.userId,
-        userName = user.userName,
-        token 
-      });
+      IPAddress? remoteIp = this.HttpContext?.Connection.RemoteIpAddress;
+      if (remoteIp != null)
+        clientIp = remoteIp.ToString();
+    }
+    catch
+    {
+      // 預防取不到IP/HostName當掉。
     }
 
-    // 預設失敗
-    return Unauthorized();
+    if (!_account.Authenticate(login))
+      return Unauthorized();
+
+    var authUser = _account.Authorize(login.userId);
+    if (authUser == null)
+      return Unauthorized();
+
+    var token = _account.GenerateJwtToken(authUser);
+
+    // ※ 送回的cookie有效哦
+    Response.Cookies.Append($"{_config["JwtSettings:Issuer"]}.Cookie", token, new CookieOptions
+    {
+      Secure = true,
+      HttpOnly = true,
+      SameSite = SameSiteMode.Lax,
+      Expires = authUser.ExpiresUtc,
+    });
+
+    return Ok(new
+    {
+      userId = authUser.UserId,
+      userName = authUser.UserName,
+      expiredTime = authUser.ExpiresUtc.ToLocalTime(),
+      token
+    });
   }
 }

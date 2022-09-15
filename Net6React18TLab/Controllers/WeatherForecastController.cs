@@ -8,7 +8,7 @@ namespace Net6React18TLab.Controllers
   [ApiController]
   [Route("api/[controller]/[action]")]
   [Authorize("AuthFunc")]
-  [AuthFunc("FUNC010")]
+  [AuthFunc("DEMO04")]
   public class WeatherForecastController : ControllerBase
   {
     static readonly string[] Summaries = new[]
