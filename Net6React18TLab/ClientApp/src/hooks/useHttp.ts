@@ -4,12 +4,14 @@ import { setBlocking } from 'store/metaDataSlice'
 
 ///## post data with JSON only.
 ///# ref→[Using Fetch](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
-export function postData(url: string, data?: object, authToken?: string) {
+export function postData(url: string, data?: object) {
+  const authToken = sessionStorage.getItem(process.env.REACT_APP_AUTH_TOKEN as string)
+
   const headers = {
     'Content-Type': 'application/json'
   }
 
-  if (authToken)
+  if (authToken != null)
     headers['Authorization'] = `Bearer ${authToken}`
 
   return fetch(url, {
@@ -46,12 +48,11 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
   const dispatch = useAppDispatch();
-  const authToken = useAppSelector(s => s.account.authToken)
 
   const refetch = useCallback(() => {
     setLoading(true)
     dispatch(setBlocking(true))
-    postData(url, args, authToken)
+    postData(url, args)
       .then(data => {
         console.info('usePostData OK', { data })
         setData(data)
