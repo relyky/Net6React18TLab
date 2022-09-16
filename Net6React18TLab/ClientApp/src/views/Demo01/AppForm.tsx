@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, AlertTitle, Container } from '@mui/material';
 import { H3, AButton } from 'widgets/hideorder';
 import { postData } from 'hooks/useHttp'
 import { useAppSelector } from 'store/hooks'
 import Swal from 'sweetalert2'
+import { useInterval, useMousePosition, useWindowSize } from 'hooks/useWindowResource'
 
 // 取得環境參數
 const sysInfo = {
@@ -12,6 +13,14 @@ const sysInfo = {
 
 export default function Demo01_AppForm() {
   const account = useAppSelector(s => s.account)
+
+  const mousePos = useMousePosition()
+  const wndSize = useWindowSize()
+
+  const [now, setNow] = useState<Date>(new Date())
+  useInterval(1000, () => {
+    setNow(new Date())
+  })
 
   function handleClick() {
     postData('api/Account/Echo', { knock: 'foo' }).then(data => {
@@ -35,6 +44,11 @@ export default function Demo01_AppForm() {
     <Container>
       <H3>Demo01 : 系統與環境參數</H3>
       <AButton mutant="primary0" label="Echo" onClick={handleClick} />
+
+      <Alert severity="info" sx={{ mt: 2 }}>
+        <AlertTitle>{`${now}`}</AlertTitle>
+        <p> size:{wndSize.w}:{wndSize.h}, mouse:{mousePos.x}:{mousePos.y}</p>
+      </Alert>
 
       <Alert severity="warning" sx={{ mt: 2 }}>
         <AlertTitle>account</AlertTitle>

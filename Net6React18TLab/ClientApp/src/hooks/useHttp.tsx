@@ -16,7 +16,7 @@ export function postData(url: string, data?: object, authToken?: string) {
     headers,
     body: JSON.stringify(data),
     cache: 'no-cache',
-    credentials: 'same-origin',
+    credentials: 'omit',
     method: 'POST',
     referrer: 'no-referrer',
   }).then(resp => {

@@ -26,6 +26,7 @@
     "redux": "^4.2.0",
     "rimraf": "^3.0.2",
     "sweetalert2": "^11.4.33",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.5.4",
     "workbox-broadcast-update": "^6.5.4",

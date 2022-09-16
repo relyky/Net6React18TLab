@@ -68,14 +68,14 @@ public class AccountController : ControllerBase
 
     var token = _account.GenerateJwtToken(authUser);
 
-    // ※ 送回的cookie有效哦
-    Response.Cookies.Append($"{_config["JwtSettings:Issuer"]}.Cookie", token, new CookieOptions
-    {
-      Secure = true,
-      HttpOnly = true,
-      SameSite = SameSiteMode.Lax,
-      Expires = authUser.ExpiresUtc,
-    });
+    //// ※ 送回的cookie有效
+    //Response.Cookies.Append($"{_config["JwtSettings:Issuer"]}.Cookie", token, new CookieOptions
+    //{
+    //  Secure = true,
+    //  HttpOnly = true,
+    //  SameSite = SameSiteMode.Lax,
+    //  Expires = authUser.ExpiresUtc,
+    //});
 
     return Ok(new
     {
