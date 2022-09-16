@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { useState, useEffect, useCallback, useMemo, useDebugValue } from 'react'
+import { useAppDispatch } from 'store/hooks'
 import { setBlocking } from 'store/metaDataSlice'
 
 ///## post data with JSON only.
@@ -67,13 +67,15 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
         setLoading(false)
         dispatch(setBlocking(false))
       })
-  }, [attrs.initData, url, args])
+  }, [attrs.initData, url, args, dispatch
+  ])
 
   //# DidMount
   useEffect(() => {
     if (attrs.immediately) refetch();
   }, [attrs.immediately, refetch]);
 
+  useDebugValue({ option: attrs, data, loading, error })
   return [data, loading, error, refetch];
 }
 
@@ -100,5 +102,6 @@ export function useLoad(url: string, args?: object, initData: DataType = [])
       .finally(() => setLoading(false))
   })
 
+  useDebugValue({ data, loading, error })
   return [data, loading, error];
 }
