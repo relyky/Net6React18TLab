@@ -6,7 +6,7 @@ import { useAppDispatch } from 'store/hooks'
 import { assignAccount } from 'store/accountSlice'
 import { useNavigate } from "react-router-dom"
 import { postData } from 'hooks/useHttp'
-
+import { useSessionStorage } from 'hooks/useWindowResource'
 
 interface LoginArgs {
   userId: string,
@@ -29,6 +29,7 @@ const Copyright = () => (
 export default function LoginForm() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [_, setAuthToken] = useSessionStorage(process.env.REACT_APP_AUTH_TOKEN as string)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -48,6 +49,14 @@ export default function LoginForm() {
         authToken: data.token,
         expiredTime: data.expiredTime
       }));
+
+      setAuthToken({
+        loginUserId: data.userId,
+        loginUserName: data.userName,
+        authToken: data.token,
+        expiredTime: data.expiredTime
+      })
+
       navigate('/') // 轉址到主畫面
     }).catch(err => {
       console.log('Signin FAIL', err);

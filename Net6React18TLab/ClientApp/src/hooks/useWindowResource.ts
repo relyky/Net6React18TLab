@@ -17,22 +17,25 @@ export function useInterval(ms: number, callback: () => void) {
 /// 應用範例
 /// const [foo, setFoo] = useSessionStorage('foo')
 
-export function useLocalStorage(key: string, initState: object = {}) {
+export function useSessionStorage(key: string, initState: object | null = null) {
   const [changed, toggleChanged] = useReducer((f) => !f, true) // to indicate the "localStorage value" has changed.
 
   function setValue(newState: object) {
-    localStorage.setItem(key, JSON.stringify(newState))
+    sessionStorage.setItem(key, JSON.stringify(newState))
     toggleChanged()
   }
 
   const value = useMemo(() => {
-    const str = localStorage.getItem(key)
-    if (str == null) {
-      localStorage.setItem(key, JSON.stringify(initState))
-      return initState
+    const strValue = sessionStorage.getItem(key)
+    if (strValue == null) {
+      if (typeof initState === 'object') {
+        sessionStorage.setItem(key, JSON.stringify(initState));
+        return initState
+      }
+      return null
     }
 
-    return JSON.parse(str as string)
+    return JSON.parse(strValue as string)
   }, [key, changed])
 
   return [value, setValue]
@@ -71,6 +74,7 @@ export function useWindowSize() {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize)
+    window.dispatchEvent(new Event('resize')) // 立即手動觸發訊息以取得 size 。
     return () => window.removeEventListener("resize", handleResize)
   }, []) // 等同 componentDidMount
 
