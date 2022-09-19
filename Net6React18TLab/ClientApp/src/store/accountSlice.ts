@@ -89,7 +89,7 @@ const accountSlice = createSlice({
         state.status = AuthStatus.Authing
       })
       .addCase(signInAsync.fulfilled, (state, action) => {
-        const data: any = action.payload as AccountState & AccountAuth
+        const data = action.payload as AccountState & AccountAuth
         // update account
         state.loginUserId = data.loginUserId
         state.loginUserName = data.loginUserName

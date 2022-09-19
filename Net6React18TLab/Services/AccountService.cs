@@ -239,6 +239,7 @@ public class AccountService
     lock (_lockObj)
     {
       var auth = _cache.Get<AuthUser>($"AuthPool:{identity.Name}");
+      if (auth == null) return null;
 
       // 再確認一次授權ID有無相同
       if (auth.AuthGuid != authGuid)
