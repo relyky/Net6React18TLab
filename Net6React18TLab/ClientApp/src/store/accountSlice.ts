@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { postData } from 'hooks/useHttp'
 import { setBlocking } from 'store/metaDataSlice'
+import Swal from 'sweetalert2'
 
 export enum AuthStatus {
   Guest = "Guest",
@@ -37,6 +38,11 @@ export const signInAsync = createAsyncThunk(
       _thunkAPI.dispatch(setBlocking(true))
       const result = await postData('api/Account/SignIn', args)
       return result
+    }
+    catch (err) {
+      const message = '請確認帳號密碼正確。'
+      Swal.fire('登入失敗', message, 'error')
+      return _thunkAPI.rejectWithValue({ message })
     }
     finally {
       _thunkAPI.dispatch(setBlocking(false))
