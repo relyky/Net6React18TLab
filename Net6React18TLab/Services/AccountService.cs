@@ -248,7 +248,7 @@ public class AccountService
       // 確認未過期
       if (auth.ExpiresUtc <= DateTimeOffset.UtcNow)
       {
-        // 已過期
+        // 若已過期則移除
         _cache.Remove($"AuthPool:{identity.Name}");
         return null;
       }

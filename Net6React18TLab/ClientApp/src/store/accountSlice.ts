@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { postData } from 'hooks/useHttp'
 import { setBlocking } from 'store/metaDataSlice'
 
@@ -65,8 +65,7 @@ export const signOutAsync = createAsyncThunk(
   async (_, _thunkAPI) => {
     try {
       _thunkAPI.dispatch(setBlocking(true))
-      const result = await postData('api/Account/Logout')
-      return result
+      await postData('api/Account/Logout')
     }
     finally {
       _thunkAPI.dispatch(setBlocking(false))
@@ -141,12 +140,25 @@ const accountSlice = createSlice({
         state.status = AuthStatus.Authing
       })
       .addCase(signOutAsync.fulfilled, (state, action) => {
-        // update authToken
+        //※ 登出成功並清除登入資訊。
+        // reset authToken
         sessionStorage.removeItem(process.env.REACT_APP_AUTH_TOKEN as string)
-        return initialState;
+        // update account
+        state.loginUserId = initialState.loginUserId
+        state.loginUserName = initialState.loginUserName
+        state.expiredTime = initialState.expiredTime
+        state.status = initialState.status
       })
       .addCase(signOutAsync.rejected, (state, action) => {
-        state.status = AuthStatus.Guest;
+        //※ 登出失敗一樣清除登入資訊。
+        console.error('登出失敗一樣清除登入資訊。');
+        // reset authToken
+        sessionStorage.removeItem(process.env.REACT_APP_AUTH_TOKEN as string)
+        // update account
+        state.loginUserId = initialState.loginUserId
+        state.loginUserName = initialState.loginUserName
+        state.expiredTime = initialState.expiredTime
+        state.status = initialState.status
       })
   },
 });

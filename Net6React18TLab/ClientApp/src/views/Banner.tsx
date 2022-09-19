@@ -73,7 +73,7 @@ const SessionDownCounter: FC = () => {
       return parseISO(account.expiredTime as string)
     }
     return null;
-  }, [account.expiredTime])
+  }, [account.status, account.expiredTime])
 
   useInterval(1000, () => {
     if (account.status === AuthStatus.Authed) {

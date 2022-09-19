@@ -12,8 +12,12 @@ export default function App() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getAuthInfoAsync())
-  }, [])
+    // 若存在 authToken 才取出現登入者資訊
+    const authToken = sessionStorage.getItem(process.env.REACT_APP_AUTH_TOKEN as string)
+    if (authToken) {
+      dispatch(getAuthInfoAsync())
+    }
+  }, [dispatch])
 
   return (
     <Routes>
