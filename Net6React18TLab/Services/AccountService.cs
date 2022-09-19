@@ -146,7 +146,8 @@ public class AccountService
       lock (_lockObj)
       {
         ///※ 授權資料建議存入Database，可用 MemoryCache 加速。
-        _cache.Set<AuthUser>(authUser.AuthGuid, authUser, TimeSpan.FromMinutes(expiresMinutes));
+        //## 一個人只能在一個位置登入
+        _cache.Set<AuthUser>($"AuthPool:{authUser.UserId}", authUser, TimeSpan.FromMinutes(expiresMinutes));
       }
 
       // success
@@ -224,7 +225,7 @@ public class AccountService
     return serializeToken;
   }
 
-  internal AuthUser? GetCurrentUser(IIdentity? id)
+  internal AuthUser? GetSessionUser(IIdentity? id)
   {
     var identity = id as ClaimsIdentity;
     if (identity == null) return null;
@@ -237,7 +238,22 @@ public class AccountService
 
     lock (_lockObj)
     {
-      return _cache.Get<AuthUser>(authGuid);
+      var auth = _cache.Get<AuthUser>($"AuthPool:{identity.Name}");
+
+      // 再確認一次授權ID有無相同
+      if (auth.AuthGuid != authGuid)
+        return null;
+
+      // 確認未過期
+      if (auth.ExpiresUtc <= DateTimeOffset.UtcNow)
+      {
+        // 已過期
+        _cache.Remove($"AuthPool:{identity.Name}");
+        return null;
+      }
+
+      // success
+      return auth;
     }
   }
 }

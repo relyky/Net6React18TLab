@@ -69,15 +69,19 @@ public class AccountController : ControllerBase
     });
   }
 
+  /// <summary>
+  /// 取得現在連線會話中的使用者
+  /// </summary>
+  /// <returns></returns>
   [HttpPost]
   [Authorize]
-  public IActionResult GetLoginInfo()
+  public IActionResult GetAuthInfo()
   {
     // 模擬長時間登入
     SpinWait.SpinUntil(() => false, 2000);
 
     // 取現在登入授權資料
-    AuthUser? authUser = _account.GetCurrentUser(HttpContext.User.Identity);
+    AuthUser? authUser = _account.GetSessionUser(HttpContext.User.Identity);
     if(authUser == null)
       return Unauthorized();
 

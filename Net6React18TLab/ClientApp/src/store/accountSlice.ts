@@ -44,12 +44,12 @@ export const signInAsync = createAsyncThunk(
 )
 
 // API Thunk
-export const getLoginInfoAsync = createAsyncThunk(
-  'accountAPI/getLoginInfo',
+export const getAuthInfoAsync = createAsyncThunk(
+  'accountAPI/getAuthInfo',
   async (_, _thunkAPI) => {
     try {
       _thunkAPI.dispatch(setBlocking(true))
-      const result = await postData('api/Account/GetLoginInfo')
+      const result = await postData('api/Account/GetAuthInfo')
       return result
     }
     finally {
@@ -102,10 +102,10 @@ const accountSlice = createSlice({
       .addCase(signInAsync.rejected, (state, action) => {
         state.status = AuthStatus.Guest;
       })
-      .addCase(getLoginInfoAsync.pending, (state, action) => {
+      .addCase(getAuthInfoAsync.pending, (state, action) => {
         state.status = AuthStatus.Authing
       })
-      .addCase(getLoginInfoAsync.fulfilled, (state, action) => {
+      .addCase(getAuthInfoAsync.fulfilled, (state, action) => {
         const data = action.payload as AccountState & AccountAuth
         // update account
         state.loginUserId = data.loginUserId
@@ -116,7 +116,7 @@ const accountSlice = createSlice({
         // update authToken
         sessionStorage.setItem(process.env.REACT_APP_AUTH_TOKEN as string, data.authToken as string)
       })
-      .addCase(getLoginInfoAsync.rejected, (state, action) => {
+      .addCase(getAuthInfoAsync.rejected, (state, action) => {
         state.status = AuthStatus.Guest;
       })
   },

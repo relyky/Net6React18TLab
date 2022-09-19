@@ -5,14 +5,14 @@ import AppRoutes from './AppRoutes'
 import MainOutlet from './views/MainOutlet'
 import NoOutlet from './views/NoOutlet'
 import LoginView from './views/Account/Login'
-import { getLoginInfoAsync } from 'store/accountSlice'
+import { getAuthInfoAsync } from 'store/accountSlice'
 import { useAppDispatch } from './store/hooks';
 
 export default function App() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getLoginInfoAsync())
+    dispatch(getAuthInfoAsync())
   }, [])
 
   return (
