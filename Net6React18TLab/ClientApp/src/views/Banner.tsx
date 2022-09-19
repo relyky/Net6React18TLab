@@ -59,7 +59,7 @@ export default function Banner() {
 // auth. session down-counter
 const SessionDownCounter: FC = () => {
   const account = useAppSelector(s => s.account)
-  const [downCounter, setDownCounter] = useState<Duration>({ hours:0, minutes: 0, seconds: 0 })
+  const [downCounter, setDownCounter] = useState<Duration>({ hours: 0, minutes: 0, seconds: 0 })
 
   const expiredTime = useMemo<Date | null>(() => {
     if (account.status === AuthStatus.Authed) {
@@ -84,9 +84,17 @@ const SessionDownCounter: FC = () => {
   if (account.status !== AuthStatus.Authed)
     return (<></>);
 
+  if (downCounter.hours && downCounter.hours > 0) {
+    return (
+      <Typography variant="caption" component="span" noWrap>
+        &nbsp;{downCounter.hours}h:{downCounter.minutes}m
+      </Typography>
+    )
+  }
+
   return (
     <Typography variant="caption" component="span" noWrap>
-      &nbsp;{(downCounter.hours as number) > 0 ? `${downCounter.hours}:` : ''}{`${downCounter.minutes}:${downCounter.seconds}`}
+      &nbsp;{downCounter.minutes}:{downCounter.seconds}
     </Typography>
   )
 }
