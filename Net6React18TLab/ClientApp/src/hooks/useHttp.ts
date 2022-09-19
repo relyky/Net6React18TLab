@@ -4,7 +4,7 @@ import { setBlocking } from 'store/metaDataSlice'
 
 ///## post data with JSON only.
 ///# ref→[Using Fetch](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
-export function postData(url: string, data?: object) {
+export function postData(url: string, data?: object): Promise<unknown> {
   const authToken = sessionStorage.getItem(process.env.REACT_APP_AUTH_TOKEN as string)
 
   const headers = {
@@ -55,7 +55,7 @@ export function useLoadData(url: string, args?: object, option?: PostDataOptions
     postData(url, args)
       .then(data => {
         console.info('useLoadData OK', { data })
-        setData(data)
+        setData(data as DataType)
         setError(null)
       })
       .catch((error) => {
@@ -91,7 +91,7 @@ export function useLoadInit(url: string, args?: object, initData: DataType = [])
     postData(url, args)
       .then(data => {
         console.info('useLoadInit OK', { data })
-        setData(data)
+        setData(data as DataType)
         setError(null)
       })
       .catch((error) => {

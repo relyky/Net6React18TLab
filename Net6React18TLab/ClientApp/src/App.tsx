@@ -1,15 +1,24 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes'
 import MainOutlet from './views/MainOutlet'
 import NoOutlet from './views/NoOutlet'
 import LoginView from './views/Account/Login'
+import { getLoginInfoAsync } from 'store/accountSlice'
+import { useAppDispatch } from './store/hooks';
 
 export default function App() {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getLoginInfoAsync())
+  }, [])
+
   return (
     <Routes>
       <Route path="/login" element={<NoOutlet />}>
-        <Route index element={<LoginView />} />      
+        <Route index element={<LoginView />} />
       </Route>
 
       <Route path="/" element={<MainOutlet />}>

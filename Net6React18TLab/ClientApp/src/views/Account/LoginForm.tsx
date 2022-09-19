@@ -1,18 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Link, Box, Grid, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 // hooks
-import { useAppDispatch } from 'store/hooks'
-import { assignAccount } from 'store/accountSlice'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { signInAsync, LoginArgs, AuthStatus } from 'store/accountSlice'
 import { useNavigate } from "react-router-dom"
-import { postData } from 'hooks/useHttp'
-
-interface LoginArgs {
-  userId: string,
-  credential: string,
-  vcode: string,
-  returnUrl?: string
-}
 
 const Copyright = () => (
   <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
@@ -28,6 +20,7 @@ const Copyright = () => (
 export default function LoginForm() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const account = useAppSelector(s => s.account)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -38,25 +31,13 @@ export default function LoginForm() {
       vcode: '123456'
     };
 
-    postData('api/Account/SignIn', loginInfo).then(data => {
-      console.log('Signin OK', data);
-      // 登入成功取得 AuthToken
-      dispatch(assignAccount({
-        loginUserId: data.userId,
-        loginUserName: data.userName,
-        authToken: data.token,
-        expiredTime: data.expiredTime
-      }));
-
-      navigate('/') // 轉址到主畫面
-    }).catch(err => {
-      console.log('Signin FAIL', err);
-    })
-
-    //// 模擬成功後，轉址到主畫面
-    //dispatch(assignAccount({ loginUserId: 'smart', loginUserName: '郝聰明' }))
-    //navigate('/') // 轉址到主畫面
+    dispatch(signInAsync(loginInfo))
   };
+
+  useEffect(() => {
+    if (account.status === AuthStatus.Authed)
+      navigate('/') // 成功後轉址到主畫面
+  }, [account])
 
   return (
     <Box

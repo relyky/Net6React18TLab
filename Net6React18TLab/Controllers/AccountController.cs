@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Net6React18TLab.Services;
 using System.Net;
 using System.Reflection;
+using Net6React18TLab.Models;
+using System.Diagnostics;
 
 namespace Net6React18TLab.Controllers;
 
@@ -58,21 +60,35 @@ public class AccountController : ControllerBase
 
     var token = _account.GenerateJwtToken(authUser);
 
-    //// ※ 送回的cookie有效
-    //Response.Cookies.Append($"{_config["JwtSettings:Issuer"]}.Cookie", token, new CookieOptions
-    //{
-    //  Secure = true,
-    //  HttpOnly = true,
-    //  SameSite = SameSiteMode.Lax,
-    //  Expires = authUser.ExpiresUtc,      
-    //});
+    return Ok(new
+    {
+      loginUserId = authUser.UserId,
+      loginUserName = authUser.UserName,
+      expiredTime = authUser.ExpiresUtc.ToLocalTime(),
+      authToken = token
+    });
+  }
+
+  [HttpPost]
+  [Authorize]
+  public IActionResult GetLoginInfo()
+  {
+    // 模擬長時間登入
+    SpinWait.SpinUntil(() => false, 2000);
+
+    // 取現在登入授權資料
+    AuthUser? authUser = _account.GetCurrentUser(HttpContext.User.Identity);
+    if(authUser == null)
+      return Unauthorized();
+
+    var token = _account.GenerateJwtToken(authUser);
 
     return Ok(new
     {
-      userId = authUser.UserId,
-      userName = authUser.UserName,
+      loginUserId = authUser.UserId,
+      loginUserName = authUser.UserName,
       expiredTime = authUser.ExpiresUtc.ToLocalTime(),
-      token
+      authToken = token
     });
   }
 }

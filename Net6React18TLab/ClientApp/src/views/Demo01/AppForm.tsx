@@ -11,6 +11,10 @@ const sysInfo = {
   BASE_URL: document.getElementsByTagName('base')[0].getAttribute('href') as string
 }
 
+interface EchoResult {
+  echo: string
+}
+
 export default function Demo01_AppForm() {
   const account = useAppSelector(s => s.account)
 
@@ -25,9 +29,10 @@ export default function Demo01_AppForm() {
   function handleClick() {
     postData('api/Account/Echo', { knock: 'foo' }).then(data => {
       console.log('handleClick OK', data);
+      const { echo } = data as EchoResult
       Swal.fire({
         title: '成訊息訊',
-        text: data.echo,
+        text: echo,
         icon: 'success',
       })
     }).catch(err => {

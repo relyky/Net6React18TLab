@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml.Linq;
 using Net6React18TLab.Models;
 using Microsoft.Extensions.Caching.Memory;
+using System.Security.Principal;
 
 namespace Net6React18TLab.Services;
 
@@ -221,6 +222,23 @@ public class AccountService
     var serializeToken = tokenHandler.WriteToken(securityToken);
 
     return serializeToken;
+  }
+
+  internal AuthUser? GetCurrentUser(IIdentity? id)
+  {
+    var identity = id as ClaimsIdentity;
+    if (identity == null) return null;
+
+    var jtiClaim = identity.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti);
+    if(jtiClaim == null) return null;
+
+    if (!Guid.TryParse(jtiClaim.Value, out Guid authGuid))
+      return null;
+
+    lock (_lockObj)
+    {
+      return _cache.Get<AuthUser>(authGuid);
+    }
   }
 }
 
