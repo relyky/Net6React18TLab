@@ -21,18 +21,18 @@ interface IAuthUser
 /// </summary>
 record AuthUser
 {
-  public string UserId { get; init; }
-  public string UserName { get; init; }
-  public string[] Roles { get; init; }
+  public string UserId { get; init; } = String.Empty;
+  public string UserName { get; init; } = String.Empty;
+  public string[] Roles { get; init; } = new string[0];
   public Guid AuthGuid { get; init; }
   public DateTimeOffset IssuedUtc { get; init; }
   public DateTimeOffset ExpiresUtc { get; init; }
-  public string ClientIp { get; init; }
+  public string ClientIp { get; init; } = String.Empty;
 
   /// <summary>
   /// 授權功能選單
   /// </summary>
-  public MenuInfo AuthMenu { get; init; }
+  public MenuInfo AuthMenu { get; init; } = new();
 
   /// <summary>
   /// 授權功能清單
@@ -53,8 +53,8 @@ class MenuInfo
 
 class MenuGroup
 {
-  public string groupName { get; set; }
-  public string groupId { get; set; }
+  public string groupName { get; set; } = String.Empty;
+  public string groupId { get; set; } = String.Empty;
   public List<MenuItem> funcList { get; set; } = new List<MenuItem>();
 
   public MenuGroup AddMenuItem(MenuItem item)
@@ -66,8 +66,8 @@ class MenuGroup
 
 class MenuItem
 {
-  public string funcId { get; set; }
-  public string funcName { get; set; }
-  public string url { get; set; }
-  public string tip { get; set; }
+  public string funcId { get; set; } = String.Empty;
+  public string funcName { get; set; } = String.Empty;
+  public string url { get; set; } = String.Empty;
+  public string tip { get; set; } = String.Empty;
 }

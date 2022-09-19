@@ -46,18 +46,8 @@ public class AccountController : ControllerBase
   [HttpPost]
   public IActionResult SignIn(LoginArgs login)
   {
-    //# 取登入者來源IP
-    string clientIp = "無法取得來源IP";
-    try
-    {
-      IPAddress? remoteIp = this.HttpContext?.Connection.RemoteIpAddress;
-      if (remoteIp != null)
-        clientIp = remoteIp.ToString();
-    }
-    catch
-    {
-      // 預防取不到IP/HostName當掉。
-    }
+    // 模擬長時間登入
+    SpinWait.SpinUntil(() => false, 2000);
 
     if (!_account.Authenticate(login))
       return Unauthorized();
@@ -74,7 +64,7 @@ public class AccountController : ControllerBase
     //  Secure = true,
     //  HttpOnly = true,
     //  SameSite = SameSiteMode.Lax,
-    //  Expires = authUser.ExpiresUtc,
+    //  Expires = authUser.ExpiresUtc,      
     //});
 
     return Ok(new

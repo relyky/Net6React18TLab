@@ -3,13 +3,13 @@ import { Container, MenuItem, TextField, LinearProgress, Paper } from '@mui/mate
 import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { H3, AButton, ASwitch } from 'widgets/hideorder'
 // hooks
-import { usePostData, useLoad } from 'hooks/useHttp'
+import { useLoadData, useLoadInit } from 'hooks/useHttp'
 
 export default function Demo01_AppForm() {
-  const [codeList] = useLoad('api/WeatherForecast/GetBasicData')
+  const [codeList] = useLoadInit('api/WeatherForecast/GetBasicData')
   const [immediately, setImmediately] = useState<boolean>(true)
   const [args, setArgs] = useState({ rowCount: 5, summary: 'all' })
-  const [dataList, loading, error, refetch] = usePostData('api/WeatherForecast/QryDataList', args, { immediately })
+  const [dataList, loading, error, refetch] = useLoadData('api/WeatherForecast/QryDataList', args, { immediately })
 
   return (
     <Container>

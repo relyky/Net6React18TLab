@@ -40,8 +40,8 @@ const defaultOption: PostDataOptions = {
   immediately: false,
 };
 
-/// 載入資料
-export function usePostData(url: string, args?: object, option?: PostDataOptions)
+/// 載入資料 on DidMount
+export function useLoadData(url: string, args?: object, option?: PostDataOptions)
   : [data: DataType, loading: boolean, error: Error | null, refetch: () => void] {
   const attrs = useMemo<PostDataOptions>(() => ({ ...defaultOption, ...option }), [option])
   const [data, setData] = useState<DataType>(attrs.initData as DataType)
@@ -54,12 +54,12 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
     dispatch(setBlocking(true))
     postData(url, args)
       .then(data => {
-        console.info('usePostData OK', { data })
+        console.info('useLoadData OK', { data })
         setData(data)
         setError(null)
       })
       .catch((error) => {
-        console.error('usePostData FAIL', { error })
+        console.error('useLoadData FAIL', { error })
         setData(attrs.initData as DataType)
         setError(error)
       })
@@ -80,7 +80,7 @@ export function usePostData(url: string, args?: object, option?: PostDataOptions
 }
 
 /// 載入資料：只在初始化執行一次。設計用於載入基本資料。
-export function useLoad(url: string, args?: object, initData: DataType = [])
+export function useLoadInit(url: string, args?: object, initData: DataType = [])
   : [data: DataType, loading: boolean, error: Error | null] {
   const [data, setData] = useState<DataType>(initData)
   const [loading, setLoading] = useState<boolean>(false)
@@ -90,12 +90,12 @@ export function useLoad(url: string, args?: object, initData: DataType = [])
     setLoading(true)
     postData(url, args)
       .then(data => {
-        console.info('useLoad OK', { data })
+        console.info('useLoadInit OK', { data })
         setData(data)
         setError(null)
       })
       .catch((error) => {
-        console.error('useLoad FAIL', { error })
+        console.error('useLoadInit FAIL', { error })
         setData(initData)
         setError(error)
       })
