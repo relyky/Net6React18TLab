@@ -48,7 +48,7 @@ public class AccountController : ControllerBase
   [HttpPost]
   public IActionResult SignIn(LoginArgs login)
   {
-    // 模擬長時間登入
+    // 模擬長時間運算
     SpinWait.SpinUntil(() => false, 2000);
 
     if (!_account.Authenticate(login))
@@ -70,14 +70,28 @@ public class AccountController : ControllerBase
   }
 
   /// <summary>
+  /// 登出
+  /// </summary>
+  [HttpPost]
+  [Authorize]
+  public IActionResult Logout()
+  {
+    // 模擬長時間運算
+    SpinWait.SpinUntil(() => false, 2000);
+
+    // 登出
+    _account.SignOut(HttpContext.User.Identity);
+    return Ok();
+  }
+
+  /// <summary>
   /// 取得現在連線會話中的使用者
   /// </summary>
-  /// <returns></returns>
   [HttpPost]
   [Authorize]
   public IActionResult GetAuthInfo()
   {
-    // 模擬長時間登入
+    // 模擬長時間運算
     SpinWait.SpinUntil(() => false, 2000);
 
     // 取現在登入授權資料

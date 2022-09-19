@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { findAllByLabelText } from '@testing-library/react'
 import { postData } from 'hooks/useHttp'
 import { setBlocking } from 'store/metaDataSlice'
 
@@ -29,6 +28,8 @@ export interface LoginArgs {
 
 //-----------------------------------------------------------------------------
 // API Thunk
+
+// 登入
 export const signInAsync = createAsyncThunk(
   'accountAPI/signIn',
   async (args: LoginArgs, _thunkAPI) => {
@@ -43,13 +44,28 @@ export const signInAsync = createAsyncThunk(
   }
 )
 
-// API Thunk
+// 取現在登入者資訊
 export const getAuthInfoAsync = createAsyncThunk(
   'accountAPI/getAuthInfo',
   async (_, _thunkAPI) => {
     try {
       _thunkAPI.dispatch(setBlocking(true))
       const result = await postData('api/Account/GetAuthInfo')
+      return result
+    }
+    finally {
+      _thunkAPI.dispatch(setBlocking(false))
+    }
+  }
+)
+
+// 登出
+export const signOutAsync = createAsyncThunk(
+  'accountAPI/signOut',
+  async (_, _thunkAPI) => {
+    try {
+      _thunkAPI.dispatch(setBlocking(true))
+      const result = await postData('api/Account/Logout')
       return result
     }
     finally {
@@ -102,6 +118,7 @@ const accountSlice = createSlice({
       .addCase(signInAsync.rejected, (state, action) => {
         state.status = AuthStatus.Guest;
       })
+      //------------
       .addCase(getAuthInfoAsync.pending, (state, action) => {
         state.status = AuthStatus.Authing
       })
@@ -117,6 +134,18 @@ const accountSlice = createSlice({
         sessionStorage.setItem(process.env.REACT_APP_AUTH_TOKEN as string, data.authToken as string)
       })
       .addCase(getAuthInfoAsync.rejected, (state, action) => {
+        state.status = AuthStatus.Guest;
+      })
+      //------------
+      .addCase(signOutAsync.pending, (state, action) => {
+        state.status = AuthStatus.Authing
+      })
+      .addCase(signOutAsync.fulfilled, (state, action) => {
+        // update authToken
+        sessionStorage.removeItem(process.env.REACT_APP_AUTH_TOKEN as string)
+        return initialState;
+      })
+      .addCase(signOutAsync.rejected, (state, action) => {
         state.status = AuthStatus.Guest;
       })
   },

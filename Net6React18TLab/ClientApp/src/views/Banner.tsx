@@ -1,21 +1,28 @@
 import { FC } from 'react'
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material'
 import NavMenu from './NavMenu'
-import { differenceInMinutes, intervalToDuration, Interval, parseISO } from 'date-fns'
+import { intervalToDuration, parseISO } from 'date-fns'
 // hooks
-import { useAppSelector } from 'store/hooks'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { ToggleBrightnessButton } from 'hooks/useCustomTheme'
 import { useInterval } from 'hooks/useWindowResource'
+import { signOutAsync, AuthStatus } from 'store/accountSlice'
 // CSS icons
-import { AuthStatus } from 'store/accountSlice'
 import AdbIcon from '@mui/icons-material/Adb'
 import AccountIcon from '@mui/icons-material/AccountCircle'
 import GuestIcon from '@mui/icons-material/EmojiPeople'
 import LoopIcon from '@mui/icons-material/Loop'
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Banner() {
   const account = useAppSelector(s => s.account)
+  const dispatch = useAppDispatch()
+
+  function handleSignOut() {
+    dispatch(signOutAsync())
+  }
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -27,18 +34,26 @@ export default function Banner() {
         <NavMenu />
 
         <div style={{ marginLeft: 'auto' }}>
-          {account.status === AuthStatus.Authed && <IconButton color="inherit">
-            <AccountIcon />
+          {account.status === AuthStatus.Authed && <>
+            <IconButton color="inherit">
+              <AccountIcon />
+            </IconButton>
             <Typography variant="body1" component="span" noWrap>{account.loginUserName}</Typography>
             <SessionDownCounter />
-          </IconButton>}
+            <IconButton color="inherit" onClick={handleSignOut} title="登出">
+              <LogoutIcon />
+            </IconButton>
+          </>}
+
           {account.status === AuthStatus.Authing && <IconButton color="inherit">
             <LoopSpinIcon />
           </IconButton>}
+
           {account.status === AuthStatus.Guest && <IconButton color="inherit">
             <GuestIcon />
           </IconButton>}
         </div>
+
         <ToggleBrightnessButton />
       </Toolbar>
     </AppBar>
@@ -46,10 +61,12 @@ export default function Banner() {
 }
 
 //-----------------------------------------------------------------------------
+const Zero_Duration = { hours: 0, minutes: 0, seconds: 0 };
+
 // auth. session down-counter
 const SessionDownCounter: FC = () => {
   const account = useAppSelector(s => s.account)
-  const [downCounter, setDownCounter] = useState<Duration>({ hours: 0, minutes: 0, seconds: 0 })
+  const [downCounter, setDownCounter] = useState<Duration>(Zero_Duration)
 
   const expiredTime = useMemo<Date | null>(() => {
     if (account.status === AuthStatus.Authed) {
@@ -63,7 +80,7 @@ const SessionDownCounter: FC = () => {
       const start = new Date()
       const end = expiredTime as Date
       if (start >= end) {
-        setDownCounter({ hours: 0, minutes: 0, seconds: 0 })
+        setDownCounter(Zero_Duration)
         return
       }
       setDownCounter(intervalToDuration({ start, end }))
