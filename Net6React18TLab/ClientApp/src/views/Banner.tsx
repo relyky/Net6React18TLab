@@ -33,17 +33,7 @@ export default function Banner() {
             <SessionDownCounter />
           </IconButton>}
           {account.status === AuthStatus.Authing && <IconButton color="inherit">
-            <LoopIcon sx={{
-              animation: "spin 2s linear infinite",
-              "@keyframes spin": {
-                "0%": {
-                  transform: "rotate(360deg)",
-                },
-                "100%": {
-                  transform: "rotate(0deg)",
-                },
-              },
-            }} />
+            <LoopSpinIcon />
           </IconButton>}
           {account.status === AuthStatus.Guest && <IconButton color="inherit">
             <GuestIcon />
@@ -100,4 +90,16 @@ const SessionDownCounter: FC = () => {
 }
 
 //-----------------------------------------------------------------------------
-
+const LoopSpinIcon: FC = () => (
+  <LoopIcon sx={{
+    animation: "spin 2s linear infinite",
+    "@keyframes spin": {
+      "0%": {
+        transform: "rotate(360deg)",
+      },
+      "100%": {
+        transform: "rotate(0deg)",
+      },
+    },
+  }} />
+)
