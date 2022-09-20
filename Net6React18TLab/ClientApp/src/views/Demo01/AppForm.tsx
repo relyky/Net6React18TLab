@@ -5,6 +5,7 @@ import { postData } from 'hooks/useHttp'
 import { useAppSelector } from 'store/hooks'
 import Swal from 'sweetalert2'
 import { useInterval, useMousePosition, useWindowSize } from 'hooks/useWindowResource'
+import { saveAs } from 'file-saver'
 
 // 取得環境參數
 const sysInfo = {
@@ -45,10 +46,29 @@ export default function Demo01_AppForm() {
     })
   }
 
+  function handleDownloadFile() {
+    // How can I download a file using window.fetch?
+    // https://stackoverflow.com/questions/32545632/how-can-i-download-a-file-using-window-fetch
+
+    const url = 'api/File/DownloadFile'
+    const options = {
+      method: 'POST',      
+    };
+    fetch(url, options)
+      .then(resp => {
+        if (resp.ok) return resp.blob();
+        throw new Error('Network response was not ok.');
+      })
+      .then(blob => {
+        saveAs(blob, 'MinIO 評估.docx')
+      });
+  }
+
   return (
     <Container>
       <H3>Demo01 : 系統與環境參數</H3>
       <AButton mutant="primary0" label="Echo" onClick={handleClick} />
+      <AButton mutant="primary0" label="下載檔案" onClick={handleDownloadFile} />
 
       <Alert severity="info" sx={{ mt: 2 }}>
         <AlertTitle>{`${now}`}</AlertTitle>
