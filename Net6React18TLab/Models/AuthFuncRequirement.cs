@@ -22,10 +22,10 @@ class AuthFuncRequirement : IAuthorizationRequirement
 // 實作 handler
 internal class AuthFuncHandler : AuthorizationHandler<AuthFuncRequirement>
 {
-  readonly ILogger<WeatherForecastController> _logger;
+  readonly ILogger<AuthFuncHandler> _logger;
   readonly AccountService _account;
 
-  public AuthFuncHandler(ILogger<WeatherForecastController> logger, AccountService account)
+  public AuthFuncHandler(ILogger<AuthFuncHandler> logger, AccountService account)
   {
     _logger = logger;
     _account = account;
