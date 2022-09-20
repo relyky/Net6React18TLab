@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Net6React18TLab.Controllers;
+using Net6React18TLab.Services;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Claims;
@@ -18,8 +20,17 @@ class AuthFuncRequirement : IAuthorizationRequirement
 }
 
 // 實作 handler
-class AuthFuncHandler : AuthorizationHandler<AuthFuncRequirement>
+internal class AuthFuncHandler : AuthorizationHandler<AuthFuncRequirement>
 {
+  readonly ILogger<WeatherForecastController> _logger;
+  readonly AccountService _account;
+
+  public AuthFuncHandler(ILogger<WeatherForecastController> logger, AccountService account)
+  {
+    _logger = logger;
+    _account = account;
+  }
+
   protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthFuncRequirement requirement)
   {
     //# 未登入離開。
@@ -60,6 +71,13 @@ class AuthFuncHandler : AuthorizationHandler<AuthFuncRequirement>
   bool InAuthFuncList(ClaimsPrincipal user, string? funcCode)
   {
     if (funcCode == null) return false;
+
+    // 檢查是否有該授權功能
+    AuthUser? auth = _account.GetSessionUser(user.Identity);
+    if (auth == null) return false;
+    if(!auth.AuthFuncList().Contains(funcCode)) return false;
+
+    // Success
     return true;
   }
 }
