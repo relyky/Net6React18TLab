@@ -53,15 +53,12 @@ internal class AuthFuncHandler : AuthorizationHandler<AuthFuncRequirement>
     if (authFunc != null && authFunc.ConstructorArguments.Count > 0)
       funcCode = authFunc.ConstructorArguments[0].Value as string;
 
-    //# 取得登入者的授權資料
-    //const userAuthData = ...
-
     //# 開始驗證
     // 是否登入者有授權的功能清單。
     if(!InAuthFuncList(context.User, funcCode)) return Task.CompletedTask;
 
     // OK
-    context.Succeed(requirement);
+    context.Succeed(requirement); // 滿足此項授權需求
     return Task.CompletedTask;
   }
 
