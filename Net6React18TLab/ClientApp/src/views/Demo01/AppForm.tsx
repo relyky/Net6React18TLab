@@ -56,6 +56,7 @@ export default function Demo01_AppForm() {
     };
     fetch(url, options)
       .then(resp => {
+        console.log(resp.headers.get('content-disposition'));        
         if (resp.ok) return resp.blob();
         throw new Error('Network response was not ok.');
       })
