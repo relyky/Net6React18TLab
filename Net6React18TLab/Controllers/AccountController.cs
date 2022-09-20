@@ -81,7 +81,10 @@ public class AccountController : ControllerBase
 
     // 登出
     _account.SignOut(HttpContext.User.Identity);
-    return Ok();
+    return Ok(new ErrMsg { 
+      type = ErrMsg.success,
+      message = "登出完成。" 
+    });
   }
 
   /// <summary>
