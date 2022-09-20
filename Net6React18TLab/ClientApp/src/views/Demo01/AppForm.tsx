@@ -52,16 +52,22 @@ export default function Demo01_AppForm() {
 
     const url = 'api/File/DownloadFile'
     const options = {
-      method: 'POST',      
+      method: 'POST',
     };
+
+    let fileName = 'unknown.bin'
     fetch(url, options)
       .then(resp => {
-        console.log(resp.headers.get('content-disposition'));        
-        if (resp.ok) return resp.blob();
-        throw new Error('Network response was not ok.');
+        if (!resp.ok) throw new Error('Network response was not ok.');
+
+        // 解析附件檔名
+        //const str = "attachment; filename=\"MinIO __.docx\"; filename*=UTF-8''MinIO%20%E8%A9%95%E4%BC%B0.docx";
+        const contentDisposition = resp.headers.get('content-disposition') as string
+        fileName = decodeURI(contentDisposition.split("filename*=UTF-8''")[1])
+        return resp.blob();
       })
       .then(blob => {
-        saveAs(blob, 'MinIO 評估.docx')
+        saveAs(blob, fileName)
       });
   }
 

@@ -10,6 +10,11 @@ var _config = builder.Configuration;
 
 //## Add services to the container.
 
+builder.Services.AddCors(options =>
+  options.AddDefaultPolicy(policy =>
+    policy.WithExposedHeaders("Content-Disposition") //※ 讓 FileContentResult 可以回傳檔名。預設被過濾掉。
+  ));
+
 /// 從自訂元件中使用 HttpContext, ref→[https://docs.microsoft.com/zh-tw/aspnet/core/fundamentals/http-context?view=aspnetcore-6.0]
 /// 將可注入：IHttpContextAccessor，以取得HttpContext。
 builder.Services.AddHttpContextAccessor();
@@ -72,6 +77,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 

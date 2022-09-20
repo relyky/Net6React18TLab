@@ -4,6 +4,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using System.Net;
 using System.Net.Mail;
+using System.Web;
 
 namespace Net6React18TLab.Controllers;
 
@@ -25,7 +26,7 @@ public class FileController : ControllerBase
 
     FileInfo fi = new FileInfo(@"Template/MinIO 評估.docx");
     byte[] blob = System.IO.File.ReadAllBytes(fi.FullName);
-    return File(blob, System.Net.Mime.MediaTypeNames.Application.Octet);
+    return File(blob, System.Net.Mime.MediaTypeNames.Application.Octet, fi.Name);
   }
 
 }
