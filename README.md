@@ -11,6 +11,7 @@ React.v18 + Redux with TypeScript + .NET6
 - [x] Policy-based authorization   
 - [x] deploy to IIS	
 - [x] file download
+- [ ] make Swagger api
 - [ ] file upload
 - [ ] anit-forgery
 - [ ] deploy to docker
