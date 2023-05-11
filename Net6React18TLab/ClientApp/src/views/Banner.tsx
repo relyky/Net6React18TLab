@@ -45,13 +45,15 @@ export default function Banner() {
             </IconButton>
           </>}
 
-          {account.status === AuthStatus.Authing && <IconButton color="inherit">
-            <LoopSpinIcon />
-          </IconButton>}
+          {account.status === AuthStatus.Authing &&
+            <IconButton color="inherit">
+              <LoopSpinIcon />
+            </IconButton>}
 
-          {account.status === AuthStatus.Guest && <IconButton color="inherit">
-            <GuestIcon />
-          </IconButton>}
+          {account.status === AuthStatus.Guest &&
+            <IconButton color="inherit">
+              <GuestIcon />
+            </IconButton>}
         </div>
 
         <ToggleBrightnessButton />
