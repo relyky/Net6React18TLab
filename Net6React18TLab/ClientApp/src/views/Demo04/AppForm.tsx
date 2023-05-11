@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, MenuItem, TextField, LinearProgress, Paper } from '@mui/material'
 import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { H3, AButton, ASwitch } from 'widgets/hideorder'
+import { H3, AButton, ASwitch } from 'widgets/highorder'
 // hooks
 import { useLoadData, useLoadInit } from 'hooks/useHttp'
 

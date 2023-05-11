@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, AlertTitle, Container } from '@mui/material';
-import { H3, AButton } from 'widgets/hideorder';
+import { H3, AButton } from 'widgets/highorder';
 import { postData } from 'hooks/useHttp'
 import { useAppSelector } from 'store/hooks'
 import Swal from 'sweetalert2'

@@ -3,7 +3,7 @@
  * 參考：[Dark mode with a custom palette](https://mui.com/material-ui/customization/dark-mode/#dark-mode-with-a-custom-palette)
  * 參考：[Toggling color mode](https://mui.com/material-ui/customization/dark-mode/#toggling-color-mode)
  */
-import type { ReactChild } from 'react'
+import type { ReactNode } from 'react'
 import React, { useContext, useReducer } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { zhTW } from '@mui/material/locale'
@@ -46,7 +46,7 @@ export function useCustomTheme() {
   return useContext(CustomThemeContext)
 }
 
-export const CustomThemeProvider = (props: { children: ReactChild }) => {
+export const CustomThemeProvider = (props: { children: ReactNode }) => {
   //# 真正共享的實體在此建立
   const [colorMode, toggleColorMode] = useReducer((mode) => mode === 'white' ? 'dark' : 'white', 'white')
 

@@ -1,4 +1,4 @@
-import type { ReactChild, FC } from 'react'
+import type { ReactNode, FC } from 'react'
 import React, { useState } from 'react'
 import { Box, Button, Menu, MenuItem, Link } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
@@ -22,7 +22,7 @@ export default function NavMenu() {
 
 const MenuGroup: FC<{
   label: string,
-  children: ReactChild | ReactChild[]
+  children: ReactNode | ReactNode[]
 }> = (props) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const handleClick = (e) => setAnchorEl(e.currentTarget)
