@@ -6,14 +6,12 @@ import { useAppSelector } from 'store/hooks'
 import Swal from 'sweetalert2'
 import { useInterval, useMousePosition, useWindowSize } from 'hooks/useWindowResource'
 import { saveAs } from 'file-saver'
+import { EchoArgs } from 'dto/Account/echoArgs';
+import { EchoResult } from 'dto/Account/echoResult';
 
 // 取得環境參數
 const sysInfo = {
   BASE_URL: document.getElementsByTagName('base')[0].getAttribute('href') as string
-}
-
-interface EchoResult {
-  echo: string
 }
 
 export default function Demo01_AppForm() {
@@ -27,24 +25,45 @@ export default function Demo01_AppForm() {
     setNow(new Date())
   })
 
-  function handleClick() {
-    postData('api/Account/Echo', { knock: 'foo' }).then(data => {
-      console.log('handleClick OK', data);
-      const { echo } = data as EchoResult
+  async function handleClick() {
+    try {
+      const args: EchoArgs = { knock: 'foo' }
+      const data = await postData<EchoResult>('api/Account/Echo', args)
+      console.log('handleClick OK', { data })
       Swal.fire({
         title: '成訊息訊',
-        text: echo,
-        icon: 'success',
+        text: data.echo,
+        icon: 'success'
       })
-    }).catch(err => {
-      console.log('handleClick FAIL', err);
+    }
+    catch (errMsg) {
+      console.log('handleClick FAIL', errMsg)
       Swal.fire({
         title: '錯誤訊息',
-        text: '不知錯誤訊息。',
-        icon: 'error',
+        text: errMsg as string,
+        icon: 'error'
       })
-    })
+    }
   }
+
+  //function handleClick() {
+  //  const args: EchoArgs = { knock: 'foo' }
+  //  postData<EchoResult>('api/Account/Echo', args).then(data => {
+  //    console.log('handleClick OK', { data })
+  //    Swal.fire({
+  //      title: '成訊息訊',
+  //      text: data.echo,
+  //      icon: 'success'
+  //    })
+  //  }).catch((errMsg: string) => {
+  //    console.log('handleClick FAIL', { errMsg })
+  //    Swal.fire({
+  //      title: '錯誤訊息',
+  //      text: errMsg,
+  //      icon: 'error'
+  //    })
+  //  })
+  //}
 
   function handleDownloadFile() {
     // How can I download a file using window.fetch?

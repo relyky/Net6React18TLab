@@ -4,7 +4,7 @@ import { setBlocking } from 'store/metaDataSlice'
 
 ///## post data with JSON only.
 ///# ref→[Using Fetch](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
-export function postData(url: string, data?: object): Promise<unknown> {
+export function postData<TResult>(url: string, args?: object): Promise<TResult> {
   const authToken = sessionStorage.getItem(process.env.REACT_APP_AUTH_TOKEN as string)
 
   const headers = {
@@ -14,17 +14,28 @@ export function postData(url: string, data?: object): Promise<unknown> {
   if (authToken != null)
     headers['Authorization'] = `Bearer ${authToken}`
 
-  return fetch(url, {
-    headers,
-    body: JSON.stringify(data),
-    cache: 'no-cache',
-    credentials: 'omit',
-    method: 'POST',
-    referrer: 'no-referrer',
-  }).then(resp => {
-    if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
-    return resp.json()
-  })
+  return new Promise<TResult>((resolve, reject) => {
+    fetch(url, {
+      headers,
+      body: JSON.stringify(args),
+      cache: 'no-cache',
+      credentials: 'omit',
+      method: 'POST',
+      referrer: 'no-referrer',
+    }).then(resp => {
+      if (resp.ok) {
+        resolve(resp.json());
+        return;
+      }
+
+      throw resp;
+    }).catch((xhr: Response) => {
+      xhr.text().then(errMsg => {
+        reject(errMsg);
+        return;
+      });
+    });
+  });
 }
 
 //============================================================================

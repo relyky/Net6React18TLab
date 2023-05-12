@@ -11,6 +11,7 @@ using System.Net;
 using System.Reflection;
 using Net6React18TLab.Models;
 using System.Diagnostics;
+using Net6React18TLab.Dto.Account;
 
 namespace Net6React18TLab.Controllers;
 
@@ -31,18 +32,17 @@ public class AccountController : ControllerBase
   }
 
   [HttpPost]
-  [HttpGet]
-  public IActionResult Echo(EchoArgs args)
+  public ActionResult<EchoResult> Echo(EchoArgs args)
   {
-    return Ok(new
+    if(DateTime.Now.Second % 3 == 0)
     {
-      echo = $"{args.knock}@{DateTime.Now:HH:mm:ss}",
-    });
-  }
+      return BadRequest("我是測試用錯誤訊息！");
+    }
 
-  public record EchoArgs
-  {
-    public string knock { get; set; } = String.Empty;
+    return Ok(new EchoResult
+    {
+      Echo = $"{args.Knock}@{DateTime.Now:HH:mm:ss}",
+    });
   }
 
   [HttpPost]

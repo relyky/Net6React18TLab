@@ -14,6 +14,7 @@ import AccountIcon from '@mui/icons-material/AccountCircle'
 import GuestIcon from '@mui/icons-material/EmojiPeople'
 import LoopIcon from '@mui/icons-material/Loop'
 import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login'
 
 export default function Banner() {
   const account = useAppSelector(s => s.account)
@@ -21,6 +22,10 @@ export default function Banner() {
 
   function handleSignOut() {
     dispatch(signOutAsync())
+  }
+
+  function handleSignIn() {
+    window.location.assign('/login');
   }
 
   return (
@@ -51,9 +56,10 @@ export default function Banner() {
             </IconButton>}
 
           {account.status === AuthStatus.Guest &&
-            <IconButton color="inherit">
-              <GuestIcon />
-            </IconButton>}
+            <IconButton color="inherit" onClick={handleSignIn}>
+              <LoginIcon />
+            </IconButton>
+          }
         </div>
 
         <ToggleBrightnessButton />
