@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Net6React18TLab.Dto;
 using Net6React18TLab.Models;
 using System.Security.Claims;
 
 namespace Net6React18TLab.Controllers
 {
-  [ApiController]
+    [ApiController]
   [Route("api/[controller]/[action]")]
   [Authorize("AuthFunc")]
   [AuthFunc("DEMO04")]
@@ -26,8 +27,8 @@ namespace Net6React18TLab.Controllers
     [HttpPost]    
     public IEnumerable<WeatherForecast> QryDataList(QryDataListArgs args)
     {
-      // 模擬長時間計算
-      SpinWait.SpinUntil(() => false, 2000); // 等二秒
+      //# 模擬長時間計算。正式版請移除。
+      SpinWait.SpinUntil(() => false, 500);
 
       return Enumerable.Range(1, args.rowCount).Select(index => new WeatherForecast
       {

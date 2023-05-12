@@ -20,6 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MTT" Version="0.7.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,10 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <Target Name="Convert" BeforeTargets="PrepareForBuild">
+    <ConvertMain WorkingDirectory="Dto/" ConvertDirectory="ClientApp/src/dto/" />
+  </Target>
+  
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

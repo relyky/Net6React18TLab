@@ -79,6 +79,45 @@ export function useLoadData(url: string, args?: object, option?: PostDataOptions
   return [data, loading, error, refetch];
 }
 
+/// 載入資料 on DidMount --- 改寫自 useLoadData
+export function useLoadData2<TRespType>(url: string, args?: object, option?: PostDataOptions)
+  : [data: TRespType[], loading: boolean, error: Error | null, refetch: () => void] {
+  const attrs = useMemo<PostDataOptions>(() => ({ ...defaultOption, ...option }), [option])
+  const [data, setData] = useState<TRespType[]>(attrs.initData as TRespType[])
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<Error | null>(null)
+  const dispatch = useAppDispatch();
+
+  const refetch = useCallback(() => {
+    setLoading(true)
+    dispatch(setBlocking(true))
+    postData(url, args)
+      .then(data => {
+        console.info('useLoadData OK', { data })
+        setData(data as TRespType[])
+        setError(null)
+      })
+      .catch((error) => {
+        console.error('useLoadData FAIL', { error })
+        setData(attrs.initData as TRespType[])
+        setError(error)
+      })
+      .finally(() => {
+        setLoading(false)
+        dispatch(setBlocking(false))
+      })
+  }, [attrs.initData, url, args, dispatch
+  ])
+
+  //# DidMount
+  useEffect(() => {
+    if (attrs.immediately) refetch();
+  }, [attrs.immediately, refetch]);
+
+  useDebugValue({ option: attrs, data, loading, error })
+  return [data, loading, error, refetch];
+}
+
 /// 載入資料：只在初始化執行一次。設計用於載入基本資料。
 export function useLoadInit(url: string, args?: object, initData: DataType = [])
   : [data: DataType, loading: boolean, error: Error | null] {

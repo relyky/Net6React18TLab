@@ -1,4 +1,4 @@
-namespace Net6React18TLab.Models
+namespace Net6React18TLab.Dto
 {
     public class WeatherForecast
     {

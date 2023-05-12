@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { Container, MenuItem, TextField, LinearProgress, Paper } from '@mui/material'
 import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { H3, AButton, ASwitch } from 'widgets/highorder'
+import { WeatherForecast } from 'dto/weatherForecast'
 // hooks
-import { useLoadData, useLoadInit } from 'hooks/useHttp'
+import { useLoadData2, useLoadData, useLoadInit } from 'hooks/useHttp'
 
 export default function Demo01_AppForm() {
   const [codeList] = useLoadInit('api/WeatherForecast/GetBasicData')
   const [immediately, setImmediately] = useState<boolean>(true)
   const [args, setArgs] = useState({ rowCount: 5, summary: 'all' })
-  const [dataList, loading, error, refetch] = useLoadData('api/WeatherForecast/QryDataList', args, { immediately })
+  const [dataList, loading, error, refetch] = useLoadData2<WeatherForecast>('api/WeatherForecast/QryDataList', args, { immediately })
+  //const [dataList, loading, error, refetch] = useLoadData('api/WeatherForecast/QryDataList', args, { immediately })
 
   return (
     <Container>
@@ -56,14 +58,14 @@ export default function Demo01_AppForm() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(dataList) && dataList.map((item, index) => (
+            {Array.isArray(dataList) && dataList.map((item, index) => (              
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell>{item.date}</TableCell>
+                <TableCell>{`${item.date}`}</TableCell>
                 <TableCell align="right">{item.temperatureC}</TableCell>
-                <TableCell align="right">{item.temperatureF}</TableCell>
+                <TableCell align="right">{32 + Math.floor(item.temperatureC / 0.5556)}</TableCell>
                 <TableCell>{item.summary}</TableCell>
               </TableRow>
             ))}
