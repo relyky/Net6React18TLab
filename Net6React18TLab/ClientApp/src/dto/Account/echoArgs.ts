@@ -2,4 +2,5 @@
 
 export interface EchoArgs {
     knock: string;
+    letMeFail: boolean;
 }

@@ -58,6 +58,10 @@ builder.Services.AddAuthorization(options => {
   options.AddPolicy("AuthFunc", policy => policy.Requirements.Add(new AuthFuncRequirement()));
 });
 
+// for Swashbuckle.AspNetCore
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 // 註冊 Requirement
 builder.Services.AddSingleton<IAuthorizationHandler, AuthFuncHandler>();
 
@@ -68,18 +72,26 @@ builder.Services.AddSingleton<AccountService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+  // for Swashbuckle.AspNetCore
+  app.UseSwagger();
+  app.UseSwaggerUI();
+}
+else
 {
   // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
   app.UseHsts(); // 強制使用HTTPS協定
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection(); // 強制使用HTTPS協定
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     name: "default",

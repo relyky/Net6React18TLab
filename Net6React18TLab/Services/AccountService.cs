@@ -277,7 +277,7 @@ public class AccountService
   }
 }
 
-public record LoginArgs
+public class LoginArgs
 {
   [Required]
   [Display(Name = "帳號")]
@@ -285,12 +285,20 @@ public record LoginArgs
 
   [Required]
   [Display(Name = "通關密語")]
-  public string credential { get; set; } = String.Empty;
+  public string credential { get; set; } = string.Empty;
 
   [Required]
   [Display(Name = "驗證碼")]
-  public string vcode { get; set; } = String.Empty;
+  public string vcode { get; set; } = string.Empty;
 
   [Display(Name = "回轉網址")]
   public string returnUrl { get; set; } = "/";
+}
+
+public class LoginResult
+{
+  public string LoginUserId { get; set; } = string.Empty;
+  public string LoginUserName { get; set; } = string.Empty;
+  public DateTimeOffset ExpiredTime { get; set; }
+  public string AuthToken { get; set; } = string.Empty;
 }

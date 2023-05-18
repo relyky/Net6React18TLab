@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Alert, AlertTitle, Container } from '@mui/material';
-import { H3, AButton } from 'widgets/highorder';
+import React, { useState } from 'react'
+import { Alert, AlertTitle, Container } from '@mui/material'
+import { TextField } from '@mui/material'
+import { H3, AButton, ASwitch } from 'widgets/highorder'
 import { postData } from 'hooks/useHttp'
 import { useAppSelector } from 'store/hooks'
 import Swal from 'sweetalert2'
@@ -16,6 +17,8 @@ const sysInfo = {
 
 export default function Demo01_AppForm() {
   const account = useAppSelector(s => s.account)
+  const [letMeFail, setLetMeFail] = React.useState(true);
+  const [knock, setKnock] = React.useState('有人在嗎');
 
   const mousePos = useMousePosition()
   const wndSize = useWindowSize()
@@ -27,7 +30,7 @@ export default function Demo01_AppForm() {
 
   async function handleClick() {
     try {
-      const args: EchoArgs = { knock: 'foo' }
+      const args: EchoArgs = { knock, letMeFail }
       const data = await postData<EchoResult>('api/Account/Echo', args)
       console.log('handleClick OK', { data })
       Swal.fire({
@@ -93,6 +96,10 @@ export default function Demo01_AppForm() {
   return (
     <Container>
       <H3>Demo01 : 系統與環境參數</H3>
+
+      <TextField label="Knock" variant="standard" value={knock} onChange={element => setKnock(element.target.value)} />
+      <ASwitch value={letMeFail} label="Lae Me Fail" onChange={v => setLetMeFail(v.value)} />
+
       <AButton mutant="primary0" label="Echo" onClick={handleClick} />
       <AButton mutant="primary0" label="下載檔案" onClick={handleDownloadFile} />
 
