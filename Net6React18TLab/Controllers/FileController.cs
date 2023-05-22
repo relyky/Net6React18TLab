@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
@@ -20,7 +21,7 @@ public class FileController : ControllerBase
   }
 
   [HttpPost]
-  public IActionResult DownloadFile()
+  public FileResult DownloadFile()
   {
     // [認識 ASP․NET Core 檔案提供者與透過 Web API 下載實體檔案](https://blog.miniasp.com/post/2019/12/08/Understanding-File-Providers-in-ASP-NET-Core-and-Download-Physical-File)
 
