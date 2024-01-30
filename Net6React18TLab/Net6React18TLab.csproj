@@ -32,6 +32,10 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <TypeScriptCompile Remove="ClientApp\node_modules\**" />
+  </ItemGroup>
+
   <Target Name="Convert" BeforeTargets="PrepareForBuild">
     <ConvertMain WorkingDirectory="Dto/" ConvertDirectory="ClientApp/src/dto/" />
   </Target>
