@@ -78,8 +78,7 @@ export function useLoadData(url: string, args?: object, option?: PostDataOptions
         setLoading(false)
         dispatch(setBlocking(false))
       })
-  }, [attrs.initData, url, args, dispatch
-  ])
+  }, [attrs.initData, url, args, dispatch])
 
   //# DidMount
   useEffect(() => {
