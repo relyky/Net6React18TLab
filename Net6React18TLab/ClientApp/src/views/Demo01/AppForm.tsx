@@ -34,7 +34,7 @@ export default function Demo01_AppForm() {
       const data = await postData<EchoResult>('api/Account/Echo', args)
       console.log('handleClick OK', { data })
       Swal.fire({
-        title: '成訊息訊',
+        title: '成功息訊',
         text: data.echo,
         icon: 'success'
       })
